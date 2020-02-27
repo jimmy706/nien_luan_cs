@@ -1,0 +1,24 @@
+{
+  "name": "nien_luan_cs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "next -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@zeit/next-css": "^1.0.1",
+    "@zeit/next-sass": "^1.0.1",
+    "next": "^9.2.1",
+    "node-sass": "^4.13.1",
+    "office-ui-fabric-react": "^7.97.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  }
+}

@@ -1,0 +1,113 @@
+html {
+  font-size: 14px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto";
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
+  display: block;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+}
+
+button:focus,
+button:active,
+input:active,
+input:focus,
+textarea:active,
+textarea:focus,
+option:active,
+option:focus,
+select:active,
+select:focus {
+  outline: none;
+}
+
+button[disabled],
+input[disabled] {
+  cursor: default;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 0.67rem 0;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin: 0.83rem 0;
+}
+
+h3 {
+  font-size: 1.17rem;
+  margin: 1rem 0;
+}
+
+h4 {
+  font-size: 1rem;
+  margin: 1.33rem 0;
+}
+
+h5 {
+  font-size: 0.83rem;
+  margin: 1.67rem 0;
+}
+
+h6 {
+  font-size: 0.67rem;
+  margin: 2.33rem 0;
+}
+
+p {
+  margin: 0.5rem 0;
+}
+
+b,
+strong {
+  font-weight: bold;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, serif;
+  font-size: 1rem;
+}
+
+ul,
+li {
+  list-style-type: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.clean {
+  clear: both;
+}
