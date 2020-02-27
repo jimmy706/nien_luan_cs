@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { TextField, PrimaryButton, Stack } from "office-ui-fabric-react";
+import Link from "next/link";
 
 export default class LoginForm extends Component {
   constructor(props) {
@@ -55,7 +56,10 @@ export default class LoginForm extends Component {
             name="password"
           />
           <div>
-            Don't have account? Create <a href="#">Here</a>
+            Don't have account? Create{" "}
+            <Link href="/register">
+              <a>Here</a>
+            </Link>
           </div>
         </Stack>
         <div className="form-action-wrapper">
