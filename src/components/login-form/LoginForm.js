@@ -17,7 +17,7 @@ export default class LoginForm extends Component {
     const ggLoginOpts = {
       scope: "https://www.googleapis.com/auth/plus.login",
       width: "auto",
-      height: 50,
+      height: 35,
       longtitle: true,
       theme: "dark",
       onsuccess: this.onSignIn,
@@ -29,6 +29,10 @@ export default class LoginForm extends Component {
 
   onLoginFail = err => {
     console.log(err);
+  };
+
+  handleOnChange = e => {
+    console.log(e.target.value);
   };
 
   onSignIn = googleUser => {
@@ -48,12 +52,14 @@ export default class LoginForm extends Component {
             type="text"
             iconProps={{ iconName: "Mail" }}
             name="login"
+            onChange={this.handleOnChange}
           />
           <TextField
             label="Password"
             type="password"
             iconProps={{ iconName: "Lock" }}
             name="password"
+            onChange={this.handleOnChange}
           />
           <div>
             Don't have account? Create{" "}

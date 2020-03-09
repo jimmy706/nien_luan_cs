@@ -6,8 +6,47 @@ import {
 } from "office-ui-fabric-react";
 import React, { Component } from "react";
 import Link from "next/link";
+import axios from "axios";
+import { CREATE_ACCOUNT_URL } from "../../constants/APIs";
 
 export default class RegisterForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      form: {
+        username: "",
+        password: "",
+        repeatPassword: "",
+        email: "",
+        firstName: "",
+        lastName: ""
+      },
+      errors: {}
+    };
+  }
+
+  handleSubmit = e => {
+    e.preventDefault();
+    console.log(this.state.form);
+    axios
+      .post(CREATE_ACCOUNT_URL, this.state.form)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err.response);
+      });
+  };
+
+  handleOnChange = e => {
+    this.setState({
+      form: {
+        ...this.state.form,
+        [e.target.name]: e.target.value
+      }
+    });
+  };
+
   render() {
     const inlineTextFieldStyles = {
       root: {
@@ -16,7 +55,7 @@ export default class RegisterForm extends Component {
     };
 
     return (
-      <form className="register-form">
+      <form className="register-form" onSubmit={this.handleSubmit}>
         <Stack tokens={{ childrenGap: 10 }}>
           <TextField
             label="Email"
@@ -24,6 +63,7 @@ export default class RegisterForm extends Component {
             iconProps={{ iconName: "Mail" }}
             name="email"
             required
+            onChange={this.handleOnChange}
           />
           <TextField
             label="Username"
@@ -31,6 +71,7 @@ export default class RegisterForm extends Component {
             iconProps={{ iconName: "Contact" }}
             name="username"
             required
+            onChange={this.handleOnChange}
           />
           <Stack horizontal tokens={{ childrenGap: 20 }}>
             <Stack.Item styles={inlineTextFieldStyles}>
@@ -40,6 +81,7 @@ export default class RegisterForm extends Component {
                 iconProps={{ iconName: "Lock" }}
                 name="password"
                 required
+                onChange={this.handleOnChange}
               />
             </Stack.Item>
             <Stack.Item styles={inlineTextFieldStyles}>
@@ -49,6 +91,7 @@ export default class RegisterForm extends Component {
                 iconProps={{ iconName: "Lock" }}
                 name="repeatPassword"
                 required
+                onChange={this.handleOnChange}
               />
             </Stack.Item>
           </Stack>
@@ -59,6 +102,7 @@ export default class RegisterForm extends Component {
                 type="text"
                 iconProps={{ iconName: "People" }}
                 name="firstName"
+                onChange={this.handleOnChange}
               />
             </Stack.Item>
             <Stack.Item styles={inlineTextFieldStyles}>
@@ -67,6 +111,7 @@ export default class RegisterForm extends Component {
                 type="text"
                 iconProps={{ iconName: "People" }}
                 name="lastName"
+                onChange={this.handleOnChange}
               />
             </Stack.Item>
           </Stack>
