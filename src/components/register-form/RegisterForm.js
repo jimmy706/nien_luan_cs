@@ -8,6 +8,9 @@ import React, { Component } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { CREATE_ACCOUNT_URL } from "../../constants/APIs";
+import {passwordValidate, emailValidation, usernameValidate} from "../../validations/user-input.validation";
+import {WRONG_REPEAT_PASSWORD} from "../../constants/error-message";
+import Router from "next/router";
 
 export default class RegisterForm extends Component {
   constructor(props) {
@@ -27,14 +30,15 @@ export default class RegisterForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state.form);
     axios
       .post(CREATE_ACCOUNT_URL, this.state.form)
       .then(res => {
         console.log(res);
+        Router.push("/");
       })
       .catch(err => {
-        console.log(err.response);
+        const errors = err.response.data;
+        this.setState({errors});
       });
   };
 
@@ -45,6 +49,17 @@ export default class RegisterForm extends Component {
         [e.target.name]: e.target.value
       }
     });
+  };
+
+  checkErrorMessage = (field,value) => {
+   switch (field) {
+     case 'email':
+       return emailValidation(value);
+     case 'password':
+       return passwordValidate(value);
+     case 'username':
+       return usernameValidate(value);
+   }
   };
 
   render() {
@@ -64,6 +79,8 @@ export default class RegisterForm extends Component {
             name="email"
             required
             onChange={this.handleOnChange}
+            onGetErrorMessage={(value)=>this.checkErrorMessage('email',value)}
+            validateOnLoad={false}
           />
           <TextField
             label="Username"
@@ -72,6 +89,8 @@ export default class RegisterForm extends Component {
             name="username"
             required
             onChange={this.handleOnChange}
+            validateOnLoad={false}
+            onGetErrorMessage={(value)=>this.checkErrorMessage('username',value)}
           />
           <Stack horizontal tokens={{ childrenGap: 20 }}>
             <Stack.Item styles={inlineTextFieldStyles}>
@@ -82,6 +101,8 @@ export default class RegisterForm extends Component {
                 name="password"
                 required
                 onChange={this.handleOnChange}
+                onGetErrorMessage={(value)=>this.checkErrorMessage('password',value)}
+                validateOnLoad={false}
               />
             </Stack.Item>
             <Stack.Item styles={inlineTextFieldStyles}>
@@ -92,6 +113,8 @@ export default class RegisterForm extends Component {
                 name="repeatPassword"
                 required
                 onChange={this.handleOnChange}
+                onGetErrorMessage={(value) => value === this.state.form.password ? '' : WRONG_REPEAT_PASSWORD}
+                validateOnLoad={false}
               />
             </Stack.Item>
           </Stack>
@@ -126,7 +149,7 @@ export default class RegisterForm extends Component {
                 />
               </a>
             </Link>
-            <PrimaryButton text="Register" type="submit" />
+            <PrimaryButton text="Create account" type="submit" />
           </Stack>
         </div>
         <style jsx>

@@ -1,16 +1,26 @@
 import React, { Component } from "react";
 import { TextField, PrimaryButton, Stack } from "office-ui-fabric-react";
 import Link from "next/link";
+import { LOGIN_URL, LOGIN_WITH_OAUTH_URL } from "../../constants/APIs";
 
 export default class LoginForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      form: {
+        login: "",
+        password: ""
+      },
+      errors: {
+        login: "",
+        password: ""
+      }
+    };
   }
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log("Sumited");
+    console.log(this.state.form);
   };
 
   componentDidMount() {
@@ -32,7 +42,9 @@ export default class LoginForm extends Component {
   };
 
   handleOnChange = e => {
-    console.log(e.target.value);
+    this.setState({
+      form: { ...this.state.form, [e.target.name]: e.target.value }
+    });
   };
 
   onSignIn = googleUser => {
