@@ -1,7 +1,6 @@
 import React from "react";
 import LoginForm from "../components/login-form/LoginForm";
 import Head from "next/head";
-
 export default function IndexPage() {
   return (
     <div className="landing-page">
@@ -17,6 +16,7 @@ export default function IndexPage() {
         />
         ><title>Login</title>
       </Head>
+
       <LoginForm />
       <style jsx>
         {`
@@ -26,6 +26,7 @@ export default function IndexPage() {
             align-items: center;
             height: 100vh;
           }
+          
         `}
       </style>
     </div>
