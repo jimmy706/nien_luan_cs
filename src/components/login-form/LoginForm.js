@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import { TextField, PrimaryButton, Stack } from "office-ui-fabric-react";
 import Link from "next/link";
 import axios from 'axios';
-import { LOGIN_URL, LOGIN_WITH_OAUTH_URL } from "../../constants/APIs";
+import {  LOGIN_WITH_OAUTH_URL } from "../../constants/APIs";
 import {MessageBar,MessageBarType} from 'office-ui-fabric-react';
+import {connect} from 'react-redux';
+import {loginAction} from "../../redux/actions/user.action";
 
-export default class LoginForm extends Component {
+class LoginForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,15 +22,7 @@ export default class LoginForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    axios.post(LOGIN_URL,this.state.form)
-        .then(res => {
-          console.log(res.data);
-        })
-        .catch(err => {
-          this.setState({
-            errors: {...err.response.data}
-          })
-        });
+    loginAction(this.state.form);
   };
 
   componentDidMount() {
@@ -57,10 +51,18 @@ export default class LoginForm extends Component {
 
   onSignIn = googleUser => {
     const profile = googleUser.getBasicProfile();
-    console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log("Name: " + profile.getName());
-    console.log("Image URL: " + profile.getImageUrl());
-    console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
+    const ggProfile = {
+      name: profile.getName(),
+      email: profile.getEmail(),
+      avatar: profile.getImageUrl()
+    };
+  axios.post(LOGIN_WITH_OAUTH_URL,ggProfile)
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err.response);
+      })
   };
 
   resetError = () => {
@@ -137,3 +139,9 @@ export default class LoginForm extends Component {
     );
   }
 }
+
+
+
+export default connect(null,{
+  loginAction
+})(LoginForm);

@@ -16,12 +16,16 @@
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
     "axios": "^0.19.2",
+    "jwt-decode": "^2.2.0",
     "next": "^9.2.1",
+    "next-redux-wrapper": "^5.0.0",
     "node-sass": "^4.13.1",
     "office-ui-fabric-react": "^7.97.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-redux": "^7.2.0",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0"
   }
 }
