@@ -10,8 +10,7 @@ const initialState = {
 function userReducer(state = initialState, action) {
     switch (action.type) {
         case LOGIN_ACTION:
-            console.log(action.payload);
-            return {...state};
+            return {...action.payload.user};
         default:
             return {...state};
     }

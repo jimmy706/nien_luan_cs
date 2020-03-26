@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { TextField, PrimaryButton, Stack } from "office-ui-fabric-react";
+import { TextField, PrimaryButton, Stack, MessageBar,MessageBarType } from "office-ui-fabric-react";
 import Link from "next/link";
 import axios from 'axios';
 import {  LOGIN_WITH_OAUTH_URL } from "../../constants/APIs";
-import {MessageBar,MessageBarType} from 'office-ui-fabric-react';
 import {connect} from 'react-redux';
-import {loginAction} from "../../redux/actions/user.action";
+import {loginAction, loginOAuthAction} from "../../redux/actions/user.action";
 
 class LoginForm extends Component {
   constructor(props) {
@@ -22,7 +21,7 @@ class LoginForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    loginAction(this.state.form);
+    this.props.loginAction(this.state.form);
   };
 
   componentDidMount() {
@@ -36,7 +35,9 @@ class LoginForm extends Component {
       onfailure: this.onLoginFail
     };
 
-    gapi.signin2.render("g-signin2", ggLoginOpts);
+    if(!process.isServer) {
+      gapi.signin2.render("g-signin2", ggLoginOpts);
+    }
   }
 
   onLoginFail = err => {
@@ -56,13 +57,7 @@ class LoginForm extends Component {
       email: profile.getEmail(),
       avatar: profile.getImageUrl()
     };
-  axios.post(LOGIN_WITH_OAUTH_URL,ggProfile)
-      .then(res => {
-        console.log(res.data);
-      })
-      .catch(err => {
-        console.log(err.response);
-      })
+    this.props.loginOAuthAction(ggProfile);
   };
 
   resetError = () => {
@@ -143,5 +138,6 @@ class LoginForm extends Component {
 
 
 export default connect(null,{
-  loginAction
+  loginAction,
+  loginOAuthAction
 })(LoginForm);

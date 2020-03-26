@@ -5,6 +5,9 @@ import "../../sass/main.scss";
 import {Provider} from "react-redux";
 import initStore from "../redux/store";
 import withRedux from "next-redux-wrapper";
+import {isAuth} from "../helpers/auth";
+import jwtDecode from 'jwt-decode';
+import {LOGIN_ACTION} from "../constants/action-types";
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -13,6 +16,19 @@ class MyApp extends App {
       : {};
 
     return { pageProps };
+  }
+
+  componentDidMount() {
+    // TODO: Handle jwt that store in localStorage
+    const {store} = this.props;
+    if(isAuth()) {
+      const token = JSON.parse(localStorage.getItem("jwtToken")).token;
+      const user = jwtDecode(token);
+      store.dispatch({
+        type: LOGIN_ACTION,
+        payload: {user}
+      });
+    }
   }
 
   render() {
