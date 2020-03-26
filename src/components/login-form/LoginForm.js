@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { TextField, PrimaryButton, Stack, MessageBar,MessageBarType } from "office-ui-fabric-react";
 import Link from "next/link";
-import axios from 'axios';
-import {  LOGIN_WITH_OAUTH_URL } from "../../constants/APIs";
 import {connect} from 'react-redux';
 import {loginAction, loginOAuthAction} from "../../redux/actions/user.action";
+
 
 class LoginForm extends Component {
   constructor(props) {
@@ -14,8 +13,6 @@ class LoginForm extends Component {
         login: "",
         password: ""
       },
-      errors: {
-      }
     };
   }
 
@@ -68,8 +65,8 @@ class LoginForm extends Component {
 
   renderErrors = () => {
     let errorMessages = [];
-    for(const e in this.state.errors) {
-      errorMessages.push(this.state.errors[e]);
+    for(const e in this.props.errors) {
+      errorMessages.push(this.props.errors[e]);
     }
     return errorMessages;
   };
@@ -77,7 +74,7 @@ class LoginForm extends Component {
   render() {
     return (
       <form className="login-form" onSubmit={this.handleSubmit}>
-        {Object.keys(this.state.errors).length ? (
+        {Object.keys(this.props.errors).length ? (
             <MessageBar  messageBarType={MessageBarType.error} isMultiline={false}  dismissButtonAriaLabel="Close" onDismiss={this.resetError}>
               {this.renderErrors()}
             </MessageBar>
@@ -135,9 +132,13 @@ class LoginForm extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    errors: state.errors
+  }
+};
 
-
-export default connect(null,{
+export default connect(mapStateToProps,{
   loginAction,
   loginOAuthAction
 })(LoginForm);

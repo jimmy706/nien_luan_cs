@@ -11,8 +11,9 @@ import { CREATE_ACCOUNT_URL } from "../../constants/APIs";
 import {passwordValidate, emailValidation, usernameValidate} from "../../validations/user-input.validation";
 import {WRONG_REPEAT_PASSWORD} from "../../constants/error-message";
 import Router from "next/router";
+import {connect} from "react-redux";
 
-export default class RegisterForm extends Component {
+class RegisterForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -169,3 +170,11 @@ export default class RegisterForm extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    errors: state.errors
+  }
+};
+
+export default connect(mapStateToProps, null)(RegisterForm);

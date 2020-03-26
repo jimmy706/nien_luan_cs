@@ -4,6 +4,7 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import {setToken} from "../../helpers/auth";
 import Router from "next/router";
+import {setErrorAct, removeError} from "./error.action";
 
 function setCurrentUserAct(user) {
     return {
@@ -21,9 +22,10 @@ export function loginAction(userInfo) {
             setToken(token,user.exp * 1000);
             dispatchEvent(setCurrentUserAct(user));
             Router.push("/boards");
+            dispatchEvent(removeError());
         }
         catch (err) {
-            console.error(err);
+            dispatchEvent(setErrorAct(err.response.data));
         }
     }
 }
@@ -39,7 +41,7 @@ export function  loginOAuthAction(ggProfile) {
            Router.push("/boards");
        }
        catch (e) {
-           console.log(e);
+           console.log(e.response);
        }
     }
 

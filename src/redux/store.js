@@ -8,7 +8,7 @@ const bindMiddleWare = middleware => {
         return composeWithDevTools(applyMiddleware(...middleware))
     }
     return applyMiddleware(...middleware);
-}
+};
 
  const initStore = () => {
     return createStore(rootReducer,bindMiddleWare([thunk]));
