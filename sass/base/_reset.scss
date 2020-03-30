@@ -5,7 +5,9 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: "Roboto";
+  font-family: "Roboto", sans-serif;
+  line-height: 1.6;
+  color: $text-color;
 }
 
 article,
@@ -25,10 +27,15 @@ summary {
 
 a {
   text-decoration: none;
+  color: $text-color;
 }
 
 a:hover {
   text-decoration: none;
+}
+
+a:focus {
+  color: $text-color;
 }
 
 button {
@@ -104,8 +111,8 @@ samp {
 ul,
 li {
   list-style-type: none;
-  padding-left: 0;
-  margin-left: 0;
+  padding: 0;
+  margin: 0;
 }
 
 .clean {

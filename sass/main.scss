@@ -3,5 +3,9 @@
 @import "./base/variables";
 @import "./base/reset";
 
+@import "./layouts/container";
+
 @import "./components/form";
 @import "./components/text";
+@import "./components/header";
+@import "./components/boards-page";

@@ -1,21 +1,55 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Link from "next/link";
 import {Icon} from "office-ui-fabric-react";
+import {connect} from "react-redux";
 
-function Header() {
+function Header(props) {
+    const [openDropdown, setOpenDropdown] = useState(false);
+
+    const handleOpen = () => {
+        setOpenDropdown(!openDropdown);
+    };
+
     return (
         <header id="header">
-            <nav className="header__nav">
-                <ul className="link-list">
-                    <li>
-                        <Link href="/">
-                            <a title="Home"><Icon iconName="Home"  /></a>
-                        </Link>
-                    </li>
-                </ul>
-            </nav>
+            <div className="container">
+                <nav className="header__nav">
+                    <ul className="link-list">
+                        <li className="list-item">
+                            <Link href="/boards">
+                                <a title="Home" className="nav-link icon-wrapper"><Icon iconName="Home" /></a>
+                            </Link>
+                        </li>
+                    </ul>
+                </nav>
+                <div className="user-interact">
+                    <div className="avatar-wrapper">
+                        <img src={props.user.avatar} onClick={handleOpen} alt="avatar" className="avatar"/>
+                        <ul className={`dropdown-menu-content ${openDropdown ? 'open' : ''}`}>
+                            <li>
+                                Signed in as <strong className="username">{props.user.username}</strong>
+                            </li>
+                            <li>
+                                {props.user.email}
+                            </li>
+                            <li>
+                                <Link href={"/info"}>
+                                    <a>My Account</a>
+                                </Link>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)">Log Out</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </header>
     )
 }
-
-export default Header;
+const mapStateToProps = state => {
+    return {
+        user: state.user
+    }
+};
+export default connect(mapStateToProps,null)(Header);
