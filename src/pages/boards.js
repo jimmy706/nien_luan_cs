@@ -3,14 +3,16 @@ import Router from "next/router";
 import {isAuth} from "../helpers/auth";
 import Header from "../components/header/Header";
 import {Icon} from "office-ui-fabric-react";
-import {Dialog,DialogType, TextField, ContextualMenu} from "office-ui-fabric-react";
-
+import {Dialog,DialogType, DialogFooter, TextField, ContextualMenu, PrimaryButton, DefaultButton} from "office-ui-fabric-react";
+import {connect} from "react-redux";
+import {createBoardAction} from "../redux/actions/boards.action";
 
 class Boards extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            hideDialog: true
+            hideDialog: true,
+            boardName: ""
         };
         this._dragOption = {
             moveMenuItemText: 'Move',
@@ -37,6 +39,19 @@ class Boards extends Component {
         })
     };
 
+    handleChange = (e) => {
+        this.setState({
+            boardName: e.target.value
+        })
+    };
+
+    handleCreateBoard = () => {
+        const boardName = this.state.boardName;
+        const userId = this.props.user.id;
+        this.props.createBoardAction({boardName},userId);
+        this.closeDialog();
+    };
+
     render() {
         const {hideDialog} = this.state;
         return (
@@ -45,7 +60,7 @@ class Boards extends Component {
                 <Dialog
                     hidden={hideDialog}
                     dialogContentProps={{
-                        type: DialogType.largeHeader,
+                        type: DialogType.close,
                         title: 'Create new board',
                     }}
                     onDismiss={this.closeDialog}
@@ -54,7 +69,11 @@ class Boards extends Component {
                         dragOptions: this._dragOption
                     }}
                 >
-
+                    <TextField label="Board name" placeholder="Your board name..." onChange={this.handleChange}/>
+                    <DialogFooter>
+                        <DefaultButton text="Cancel" onClick={this.closeDialog}/>
+                        <PrimaryButton text="Create new" onClick={this.handleCreateBoard}/>
+                    </DialogFooter>
                 </Dialog>
                 <div className={"boards-container"}>
                     <div className="container">
@@ -77,4 +96,11 @@ class Boards extends Component {
     }
 }
 
-export default Boards;
+const mapStateToProps = state => {
+    return {
+        user: state.user
+    }
+};
+
+
+export default connect(mapStateToProps,{createBoardAction})(Boards);
