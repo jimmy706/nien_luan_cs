@@ -12,7 +12,8 @@
   width: 100%;
   box-sizing: border-box;
   height: 120px;
-  border-radius: 20px;
+  border-radius: 10px;
+  position: relative;
   &:hover {
     .board-name {
       text-decoration: underline;
@@ -33,8 +34,29 @@
     h3 {
       font-size: 18px;
       font-weight: 500;
-      max-height: 40px;
+      max-height: 55px;
       margin: 0;
+      line-height: 1.5;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .dropdown-container{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: transparent;
+    .ms-Button, .ms-Button--commandBar, .ms-Button--hasMenu, .ms-CommandBar-overflowButton{
+      background: transparent;
+      padding: 0;
+      color: #fff;
+    }
+    .ms-FocusZone  {
+      padding: 0;
+      background: transparent;
+    }
+    .ms-Button-menuIcon{
+      color: #fff;
     }
   }
   &.create-card {

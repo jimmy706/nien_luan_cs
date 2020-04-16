@@ -6,3 +6,4 @@ export const LOGIN_WITH_OAUTH_URL = `${BASE_URL}/user/login-with-oauth`;
 
 export const GET_BOARDS_URL = `${BASE_URL}/boards/`;
 export const CREATE_BOARD_URL = `${BASE_URL}/boards/create`;
+export const DELETE_BOARD_URL = `${BASE_URL}/boards/delete`;
