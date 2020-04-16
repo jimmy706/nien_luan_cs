@@ -1,8 +1,8 @@
-import {LOGIN_ACTION} from "../../constants/action-types";
+import {LOGIN_ACTION, LOGOUT_ACTION} from "../../constants/action-types";
 import {LOGIN_URL, LOGIN_WITH_OAUTH_URL} from "../../constants/APIs";
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import {setToken} from "../../helpers/auth";
+import {setToken, removeAuthToken} from "../../helpers/auth";
 import Router from "next/router";
 import {setErrorAct, removeError} from "./error.action";
 
@@ -44,5 +44,14 @@ export function  loginOAuthAction(ggProfile) {
            console.log(e.response);
        }
     }
+}
 
+export function logoutAction(){
+    removeAuthToken();
+    return dispatchEvent => {
+        dispatchEvent({
+            type: LOGOUT_ACTION
+        });
+        Router.push("/");
+    }
 }

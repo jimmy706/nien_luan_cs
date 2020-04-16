@@ -32,7 +32,7 @@ class LoginForm extends Component {
       onfailure: this.onLoginFail
     };
 
-    if(!process.isServer) {
+    if(!process.isServer && gapi) {
       gapi.signin2.render("g-signin2", ggLoginOpts);
     }
   }

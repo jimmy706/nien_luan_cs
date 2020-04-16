@@ -20,3 +20,15 @@ export function isAuth() {
     }
     return false;
 }
+
+export function getAuth() {
+    if(isAuth()){
+        return JSON.parse(localStorage.getItem("jwtToken"));
+    }
+    return null;
+}
+
+export function removeAuthToken() {
+    localStorage.removeItem('jwtToken');
+    delete axios.defaults.headers.common['Authorization'];
+}

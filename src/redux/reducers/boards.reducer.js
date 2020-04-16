@@ -1,4 +1,4 @@
-import {CREATE_BOARD} from "../../constants/action-types";
+import {CREATE_BOARD, GET_BOARDS} from "../../constants/action-types";
 
 const initialState = [];
 
@@ -7,6 +7,8 @@ function boardsReducer(state = initialState, action) {
         case CREATE_BOARD:
             const {boardName, _id} = action.payload.board;
             return [...state,{boardName, _id}];
+        case GET_BOARDS:
+            return [...action.payload.boards];
         default:
             return [...state];
     }

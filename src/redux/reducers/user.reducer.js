@@ -1,4 +1,4 @@
-import {LOGIN_ACTION} from "../../constants/action-types";
+import {LOGIN_ACTION, LOGOUT_ACTION} from "../../constants/action-types";
 
 const initialState = {
     username: '',
@@ -11,6 +11,8 @@ function userReducer(state = initialState, action) {
     switch (action.type) {
         case LOGIN_ACTION:
             return {...action.payload.user};
+        case LOGOUT_ACTION:
+            return {...initialState};
         default:
             return {...state};
     }

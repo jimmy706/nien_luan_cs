@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import Link from "next/link";
 import {Icon} from "office-ui-fabric-react";
 import {connect} from "react-redux";
+import {logoutAction} from "../../redux/actions/user.action";
 
 function Header(props) {
     const [openDropdown, setOpenDropdown] = useState(false);
@@ -9,6 +10,11 @@ function Header(props) {
     const handleOpen = () => {
         setOpenDropdown(!openDropdown);
     };
+
+    function handleLogout(e) {
+        e.preventDefault();
+        props.logoutAction();
+    }
 
     return (
         <header id="header">
@@ -38,7 +44,7 @@ function Header(props) {
                                 </Link>
                             </li>
                             <li>
-                                <a href="javascript:void(0)">Log Out</a>
+                                <a href="javascript:void(0)" onClick={handleLogout}>Log Out</a>
                             </li>
                         </ul>
                     </div>
@@ -52,4 +58,6 @@ const mapStateToProps = state => {
         user: state.user
     }
 };
-export default connect(mapStateToProps,null)(Header);
+export default connect(mapStateToProps,{
+    logoutAction
+})(Header);

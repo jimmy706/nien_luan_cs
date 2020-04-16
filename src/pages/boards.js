@@ -5,14 +5,17 @@ import Header from "../components/header/Header";
 import {Icon} from "office-ui-fabric-react";
 import {Dialog,DialogType, DialogFooter, TextField, ContextualMenu, PrimaryButton, DefaultButton} from "office-ui-fabric-react";
 import {connect} from "react-redux";
-import {createBoardAction} from "../redux/actions/boards.action";
+import {createBoardAction,setBoardsAction} from "../redux/actions/boards.action";
+import axios from 'axios';
+import {GET_BOARDS_URL} from "../constants/APIs";
+import BoardCard from "../components/BoardCard/BoardCard";
 
 class Boards extends Component {
     constructor(props) {
         super(props);
         this.state = {
             hideDialog: true,
-            boardName: ""
+            boardName: "",
         };
         this._dragOption = {
             moveMenuItemText: 'Move',
@@ -21,10 +24,23 @@ class Boards extends Component {
         }
     }
 
-    componentDidMount() {
+    renderBoards = () => {
+        const {boards} = this.props;
+        return boards.map(b => {
+            return (
+                <div className="item" key={b._id}>
+                    <BoardCard board={b}/>
+                </div>
+            )
+        })
+    };
+
+    async componentDidMount() {
         if(!isAuth()){
             Router.push("/");
         }
+        const boards = await axios(`${GET_BOARDS_URL}/${this.props.user.id}`);
+        this.props.setBoardsAction(boards.data);
     }
 
     closeDialog = () => {
@@ -81,6 +97,7 @@ class Boards extends Component {
                             <Icon iconName={"FabricUserFolder"}/>&nbsp; Personal boards:
                         </h2>
                         <div className="board-grid">
+                            {this.renderBoards()}
                             <div className='item'>
                                 <div className="board-card create-card" title="Create new board" onClick={this.showDialog}>
                                     <a href="javascript:void(0)" className="card-link">
@@ -98,9 +115,10 @@ class Boards extends Component {
 
 const mapStateToProps = state => {
     return {
-        user: state.user
+        user: state.user,
+        boards: state.boards
     }
 };
 
 
-export default connect(mapStateToProps,{createBoardAction})(Boards);
+export default connect(mapStateToProps,{createBoardAction,setBoardsAction})(Boards);

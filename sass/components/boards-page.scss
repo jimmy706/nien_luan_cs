@@ -13,7 +13,12 @@
   box-sizing: border-box;
   height: 120px;
   border-radius: 20px;
-  .card-link {
+  &:hover {
+    .board-name {
+      text-decoration: underline;
+    }
+  }
+  .card-link,.board-name {
     display: block;
     padding: 20px;
     width: 100%;
@@ -22,6 +27,15 @@
     border-radius: 10px;
     overflow: hidden;
     transition: all .4s ease;
+  }
+  .board-name {
+    color: #fff;
+    h3 {
+      font-size: 18px;
+      font-weight: 500;
+      max-height: 40px;
+      margin: 0;
+    }
   }
   &.create-card {
     .card-link{

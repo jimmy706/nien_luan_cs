@@ -5,11 +5,7 @@ export default function IndexPage() {
   return (
     <div className="landing-page">
       <Head>
-        <script
-          src="https://apis.google.com/js/platform.js"
-          async
-          defer
-        ></script>
+        <script src="https://apis.google.com/js/platform.js"/>
         <meta
           name="google-signin-client_id"
           content="811793049599-q4fa97rb0idqv4gom75g25hqbmhsn97k.apps.googleusercontent.com"
