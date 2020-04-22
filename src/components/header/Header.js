@@ -30,7 +30,10 @@ function Header(props) {
                 </nav>
                 <div className="user-interact">
                     <div className="avatar-wrapper">
-                        <img src={props.user.avatar} onClick={handleOpen} alt="avatar" className="avatar"/>
+                        <img src={props.user.avatar  ? props.user.avatar : "https://api.adorable.io/avatars/40/abott@adorable.png"}
+                             onClick={handleOpen}
+                             alt="avatar"
+                             className="avatar"/>
                         <ul className={`dropdown-menu-content ${openDropdown ? 'open' : ''}`}>
                             <li>
                                 Signed in as <strong className="username">{props.user.username}</strong>

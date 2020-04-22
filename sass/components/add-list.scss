@@ -1,0 +1,17 @@
+.add-list-wrapper {
+  display: inline-block;
+  .toggle-form{
+    display: block;
+    cursor: pointer;
+    background-color: rgba(240,240,240,.3);
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: #ddd;
+    width: 200px;
+  }
+
+  i{
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+}

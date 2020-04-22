@@ -18,7 +18,7 @@ function BoardCard(props) {
                     overflowItems={overflowItem}
                 />
             </div>
-            <Link href={"/boards/detail/" + _id}>
+            <Link href={"/b/[boardId]"} as={"/b/" + _id}>
                 <a className="board-name">
                     <h3>
                         {boardName}

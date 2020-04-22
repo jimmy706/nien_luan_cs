@@ -8,6 +8,7 @@ import withRedux from "next-redux-wrapper";
 import {isAuth} from "../helpers/auth";
 import jwtDecode from 'jwt-decode';
 import {LOGIN_ACTION} from "../constants/action-types";
+import Router from "next/router";
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -28,6 +29,7 @@ class MyApp extends App {
         type: LOGIN_ACTION,
         payload: {user}
       });
+      Router.push("/boards");
     }
   }
 

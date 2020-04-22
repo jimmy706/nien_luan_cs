@@ -1,0 +1,45 @@
+.board-header{
+  @extend  #header;
+  padding: 5px 0;
+  background-color: rgba(255,255,255,.2);
+  color: #fff;
+  margin-bottom: 2rem;
+  z-index: 40;
+  .board-name-wrapp {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    border-right: 1px solid #eee;
+    .board-name{
+      margin: 0 15px 0 0;
+      position: relative;
+      input[type="text"] {
+        font-size: 20px;
+        font-weight: 500;
+        color: #fff;
+        border: 0;
+        width: 150px;
+        background-color: transparent;
+        display: block;
+      }
+      input[type="text"]:focus ~ .line {
+        transform: scaleX(1);
+      }
+      .line {
+        position: absolute;
+        background-color: $blue;
+        display: block;
+        width: 100%;
+        height: 1.5px;
+        bottom: -1px;
+        left: 0;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: all .4s ease;
+      }
+    }
+  }
+  .icon-wrapper{
+    background-color: rgba(200,200,200,.4);
+  }
+}
