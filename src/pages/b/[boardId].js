@@ -5,10 +5,21 @@ import BoardHeader from "../../components/header/BoardHeader";
 import axios from 'axios';
 import {GET_BOARD_DETAIL_URL} from "../../constants/APIs";
 import AddList from "../../components/List/AddList";
+import {ADD_NEW_LIST_URL} from "../../constants/APIs";
 
 function BoardDetail(props) {
     const router = useRouter();
     const [boardState,setBoardState] = useState(props.boardDetail);
+
+    async function addNewList(listName) {
+        try {
+            const result = axios.post(`${ADD_NEW_LIST_URL}/${boardState._id}`);
+            console.log(result.data);
+        }
+        catch (e) {
+            console.log(e.response);
+        }
+    }
 
 
     return (

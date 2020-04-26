@@ -9,6 +9,7 @@ import {createBoardAction,setBoardsAction} from "../redux/actions/boards.action"
 import axios from 'axios';
 import {GET_BOARDS_URL} from "../constants/APIs";
 import BoardCard from "../components/BoardCard/BoardCard";
+import SpinnerOverlay from "../components/Progress/SpinnerOverlay";
 
 class Boards extends Component {
     constructor(props) {
@@ -63,8 +64,8 @@ class Boards extends Component {
 
     handleCreateBoard = () => {
         const boardName = this.state.boardName;
-        const userId = this.props.user.id;
-        this.props.createBoardAction({boardName},userId);
+        const email = this.props.user.email;
+        this.props.createBoardAction({boardName},email);
         this.closeDialog();
     };
 
@@ -72,6 +73,7 @@ class Boards extends Component {
         const {hideDialog} = this.state;
         return (
             <div id='boards-page'>
+                <SpinnerOverlay/>
                 <Header/>
                 <Dialog
                     hidden={hideDialog}

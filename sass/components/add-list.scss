@@ -1,15 +1,21 @@
 .add-list-wrapper {
   display: inline-block;
+  background-color: rgba(240,240,240,.6);
+  border-radius: 5px;
+  width: 200px;
+  padding: 10px 15px;
+  .add-list-form {
+    margin-top: 10px;
+    .button-wrapper {
+      text-align: right;
+      margin-top: 15px;
+    }
+  }
   .toggle-form{
     display: block;
     cursor: pointer;
-    background-color: rgba(240,240,240,.3);
-    padding: 10px 15px;
-    border-radius: 5px;
-    color: #ddd;
-    width: 200px;
+    color: #434343;
   }
-
   i{
     margin-right: 5px;
     vertical-align: middle;

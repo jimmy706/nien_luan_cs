@@ -1,6 +1,7 @@
 import {DELETE_BOARD_URL,CREATE_BOARD_URL} from "../../constants/APIs";
 import axios from "axios";
 import {CREATE_BOARD, DELETE_BOARD, GET_BOARDS} from "../../constants/action-types";
+import {onDoneAction, onLoadAction} from "./progress.action";
 
 function createBoard(board) {
     return {
@@ -11,16 +12,20 @@ function createBoard(board) {
     }
 }
 
-export function createBoardAction(boardInfo, userId) {
+export function createBoardAction(boardInfo, email) {
     const {boardName} = boardInfo;
     return async dispatchEvent => {
+        dispatchEvent(onLoadAction("Creating board..."));
        try {
-           const boardCreate = await axios.post(`${CREATE_BOARD_URL}/${userId}`, {boardName});
+           const boardCreate = await axios.post(CREATE_BOARD_URL, {boardName, email});
            dispatchEvent(createBoard(boardCreate.data));
        }
         catch (e){
            console.log(e.response);
         }
+        finally {
+           dispatchEvent(onDoneAction());
+       }
     }
 }
 
@@ -44,6 +49,7 @@ function deleteAction(boardId) {
 
 export function deleteBoardAction(boardId){
     return async dispatchEvent => {
+        dispatchEvent(onLoadAction("Deleting board..."));
         try{
             const res = await axios.delete(`${DELETE_BOARD_URL}/${boardId}`);
             if(res.data.SUCCESS){
@@ -52,6 +58,9 @@ export function deleteBoardAction(boardId){
         }
         catch (e) {
             console.log(e.response);
+        }
+        finally {
+            dispatchEvent(onDoneAction());
         }
     }
 }

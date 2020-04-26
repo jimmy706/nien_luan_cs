@@ -18,7 +18,7 @@ function Header(props) {
 
     return (
         <header id="header">
-            <div className="container">
+            <div className="container-fluid">
                 <nav className="header__nav">
                     <ul className="link-list">
                         <li className="list-item">

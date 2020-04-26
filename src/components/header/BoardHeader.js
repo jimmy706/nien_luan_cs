@@ -9,7 +9,7 @@ function BoardHeader(props) {
     }
     
     return <nav className="board-header">
-        <div className="container">
+        <div className="container-fluid">
             <div className="board-name-wrapp">
                 <div className="board-name">
                     <input value={boardName} onChange={changeName} type="text"/>

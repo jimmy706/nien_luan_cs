@@ -5,6 +5,7 @@ import jwtDecode from 'jwt-decode';
 import {setToken, removeAuthToken} from "../../helpers/auth";
 import Router from "next/router";
 import {setErrorAct, removeError} from "./error.action";
+import {onLoadAction, onDoneAction} from "./progress.action";
 
 function setCurrentUserAct(user) {
     return {
@@ -15,6 +16,7 @@ function setCurrentUserAct(user) {
 
 export function loginAction(userInfo) {
     return async dispatchEvent => {
+        dispatchEvent(onLoadAction("Login progress..."));
         try {
             const loginSuccess = await axios.post(LOGIN_URL,userInfo);
             const token = loginSuccess.data.token;
@@ -27,11 +29,15 @@ export function loginAction(userInfo) {
         catch (err) {
             dispatchEvent(setErrorAct(err.response.data));
         }
+        finally {
+            dispatchEvent(onDoneAction());
+        }
     }
 }
 
 export function  loginOAuthAction(ggProfile) {
     return async dispatchEvent => {
+        dispatchEvent(onLoadAction("Login progress..."));
        try {
            const loginSuccess = await axios.post(LOGIN_WITH_OAUTH_URL,ggProfile);
            const token = loginSuccess.data.token;
@@ -42,6 +48,9 @@ export function  loginOAuthAction(ggProfile) {
        }
        catch (e) {
            console.log(e.response);
+       }
+       finally {
+           dispatchEvent(onDoneAction());
        }
     }
 }

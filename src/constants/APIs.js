@@ -8,3 +8,4 @@ export const GET_BOARDS_URL = `${BASE_URL}/boards/`;
 export const CREATE_BOARD_URL = `${BASE_URL}/boards/create`;
 export const DELETE_BOARD_URL = `${BASE_URL}/boards/delete`;
 export const GET_BOARD_DETAIL_URL = `${BASE_URL}/boards/detail`;
+export const ADD_NEW_LIST_URL = `${BASE_URL}/boards/add-list`;
