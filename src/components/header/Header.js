@@ -47,7 +47,7 @@ function Header(props) {
                                 </Link>
                             </li>
                             <li>
-                                <a href="javascript:void(0)" onClick={handleLogout}>Log Out</a>
+                                <a href="#" onClick={handleLogout}>Log Out</a>
                             </li>
                         </ul>
                     </div>

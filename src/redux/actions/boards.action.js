@@ -2,6 +2,7 @@ import {DELETE_BOARD_URL,CREATE_BOARD_URL} from "../../constants/APIs";
 import axios from "axios";
 import {CREATE_BOARD, DELETE_BOARD, GET_BOARDS} from "../../constants/action-types";
 import {onDoneAction, onLoadAction} from "./progress.action";
+import {getAuth} from "../../helpers/auth";
 
 function createBoard(board) {
     return {
@@ -17,7 +18,13 @@ export function createBoardAction(boardInfo, email) {
     return async dispatchEvent => {
         dispatchEvent(onLoadAction("Creating board..."));
        try {
-           const boardCreate = await axios.post(CREATE_BOARD_URL, {boardName, email});
+           const boardCreate = await axios.post(CREATE_BOARD_URL, {boardName, email},{
+               headers: {
+                   headers: {
+                       'Authorization': `${getAuth().token}`
+                   }
+               }
+           });
            dispatchEvent(createBoard(boardCreate.data));
        }
         catch (e){

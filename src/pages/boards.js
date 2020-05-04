@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Router from "next/router";
-import {isAuth} from "../helpers/auth";
+import {isAuth, getAuth} from "../helpers/auth";
 import Header from "../components/header/Header";
 import {Icon} from "office-ui-fabric-react";
 import {Dialog,DialogType, DialogFooter, TextField, ContextualMenu, PrimaryButton, DefaultButton} from "office-ui-fabric-react";
@@ -40,7 +40,11 @@ class Boards extends Component {
         if(!isAuth()){
             Router.push("/");
         }
-        const boards = await axios(`${GET_BOARDS_URL}/${this.props.user.id}`);
+        const boards = await axios(GET_BOARDS_URL,{
+            headers: {
+                'Authorization': `${getAuth().token}`
+            }
+        });
         this.props.setBoardsAction(boards.data);
     }
 
@@ -102,7 +106,7 @@ class Boards extends Component {
                             {this.renderBoards()}
                             <div className='item'>
                                 <div className="board-card create-card" title="Create new board" onClick={this.showDialog}>
-                                    <a href="javascript:void(0)" className="card-link">
+                                    <a href="#" className="card-link">
                                         <Icon iconName={"CirclePlus"}/>&nbsp; Create new board
                                     </a>
                                 </div>

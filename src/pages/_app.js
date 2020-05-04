@@ -1,6 +1,5 @@
+import React from 'react';
 import App from "next/app";
-import { initializeIcons } from "@uifabric/icons";
-initializeIcons(undefined, { disableWarnings: true });
 import "../../sass/main.scss";
 import {Provider} from "react-redux";
 import initStore from "../redux/store";
@@ -9,6 +8,8 @@ import {isAuth} from "../helpers/auth";
 import jwtDecode from 'jwt-decode';
 import {LOGIN_ACTION} from "../constants/action-types";
 import Router from "next/router";
+import { initializeIcons } from "@uifabric/icons";
+initializeIcons(undefined, { disableWarnings: true });
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {

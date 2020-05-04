@@ -1,14 +1,16 @@
-import React from 'react';
-
+import React,{useState, useRef, useEffect} from 'react';
+import ListHeader from "./ListHeader";
 function List(props){
-    return <div className="list-item">
-        <div className="list-header">
+    const [listName,setListName] = useState(props.listInfo.listName);
 
-        </div>
-        <div className="list-body">
 
+    return (
+        <div className="list-card">
+            <ListHeader listName={listName} setListName={setListName}/>
+            <div className="list-body">
+            </div>
         </div>
-    </div>
+    )
 }
 
 export default List;

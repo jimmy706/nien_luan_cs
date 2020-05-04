@@ -2,6 +2,7 @@
 
 @import "./base/variables";
 @import "./base/reset";
+@import "./base/common";
 
 @import "./layouts/container";
 
@@ -12,3 +13,4 @@
 @import "./components/board-header";
 @import "./components/add-list";
 @import "./components/progress";
+@import "./components/list";

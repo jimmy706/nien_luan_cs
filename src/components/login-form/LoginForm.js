@@ -32,8 +32,13 @@ class LoginForm extends Component {
       onfailure: this.onLoginFail
     };
 
-    if(!process.isServer && gapi) {
-      gapi.signin2.render("g-signin2", ggLoginOpts);
+    if(window.gapi) {
+      window.gapi.signin2.render("g-signin2", ggLoginOpts);
+    }
+    else {
+      window.onLoadCallback = function(){
+        window.gapi.signin2.render("g-signin2", ggLoginOpts);
+      }
     }
   }
 
