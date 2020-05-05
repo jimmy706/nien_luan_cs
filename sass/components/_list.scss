@@ -81,4 +81,26 @@
       }
     }
   }
+
+  .list-footer {
+    .toggle-form{
+      cursor: pointer;
+      padding: 5px 10px;
+      background-color: transparent;
+      border-radius: 4px;
+      &:hover {
+        background-color: rgba(255,255,255,.3);
+      }
+      i{
+        display: inline-block;
+        margin-right: 5px;
+      }
+    }
+    .add-card-form {
+      .button-wrapper{
+        margin-top: 15px;
+        text-align: right;
+      }
+    }
+  }
 }

@@ -29,7 +29,7 @@ function ListHeader(props) {
                        onBlur={handleChangeListName}
                 />
             </div>
-            <span className="toggle-menu" onClick={()=>setOpenHiddenMenu(true)}>
+            <span className="toggle-menu" onClick={()=>setOpenHiddenMenu(!openHiddenMenu)}>
                 <Icon iconName="More"/>
             </span>
             <div className={`hidden-menu ${openHiddenMenu ? 'open' : ''}`}>
