@@ -20,9 +20,7 @@ export function createBoardAction(boardInfo, email) {
        try {
            const boardCreate = await axios.post(CREATE_BOARD_URL, {boardName, email},{
                headers: {
-                   headers: {
-                       'Authorization': `${getAuth().token}`
-                   }
+                   'Authorization': `${getAuth().token}`
                }
            });
            dispatchEvent(createBoard(boardCreate.data));

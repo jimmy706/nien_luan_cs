@@ -23,7 +23,7 @@ function BoardDetail(props) {
     async function addNewList(listName) {
         try {
             const result = await axios.post(`${ADD_NEW_LIST_URL}/${boardState._id}`,{listName});
-            console.log(result.data);
+            setBoardState(result.data);
         }
         catch (e) {
             console.log(e.response);

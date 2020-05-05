@@ -12,6 +12,7 @@ import {passwordValidate, emailValidation, usernameValidate} from "../../validat
 import {WRONG_REPEAT_PASSWORD} from "../../constants/error-message";
 import Router from "next/router";
 import {connect} from "react-redux";
+import {onDoneAction, onLoadAction} from "../../redux/actions/progress.action";
 
 class RegisterForm extends Component {
   constructor(props) {
@@ -31,10 +32,11 @@ class RegisterForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    props.onLoadAct("Creating account...");
     axios
       .post(CREATE_ACCOUNT_URL, this.state.form)
       .then(res => {
-        console.log(res);
+        props.onDoneAct();
         Router.push("/");
       })
       .catch(err => {
@@ -177,4 +179,11 @@ const mapStateToProps = state => {
   }
 };
 
-export default connect(mapStateToProps, null)(RegisterForm);
+const mapDispatchToProps = dispatch => {
+  return {
+    onDoneAct: () => dispatch(onDoneAction()),
+    onLoadAct: (label) => dispatch(onLoadAction(label))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);

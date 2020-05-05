@@ -17,10 +17,16 @@ function AddList(props) {
         setName(e.target.value);
     }
 
+    function handleAddNewList() {
+        props.addNewList(name);
+        setOpen(false);
+        setName('');
+    }
+
     function renderForm() {
         return (
             <form className="add-list-form">
-                <TextField placeholder="Enter list title..." value={name} onChange={handleChangeInput}/>
+                <TextField placeholder="Enter list title..." value={name} onChange={handleChangeInput} />
                 <div className="button-wrapper">
                     <span style={{
                         marginRight: "10px"
@@ -31,7 +37,7 @@ function AddList(props) {
                             iconName: 'ChromeClose'
                         }} title="Close form" ariaLabel="Close form" />
                     </span>
-                    <PrimaryButton text="Add list" onClick={()=>props.addNewList(name)}/>
+                    <PrimaryButton text="Add list" onClick={handleAddNewList}/>
                 </div>
             </form>
         )
