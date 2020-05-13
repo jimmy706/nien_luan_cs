@@ -12,7 +12,7 @@ import {passwordValidate, emailValidation, usernameValidate} from "../../validat
 import {WRONG_REPEAT_PASSWORD} from "../../constants/error-message";
 import Router from "next/router";
 import {connect} from "react-redux";
-import {onDoneAction, onLoadAction} from "../../redux/actions/progress.action";
+import {onDoneAction, onLoadAction} from "../../store/actions/progress.action";
 
 class RegisterForm extends Component {
   constructor(props) {

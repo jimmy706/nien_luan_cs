@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { TextField, PrimaryButton, Stack, MessageBar,MessageBarType } from "office-ui-fabric-react";
 import Link from "next/link";
 import {connect} from 'react-redux';
-import {loginAction, loginOAuthAction} from "../../redux/actions/user.action";
+import {loginAction, loginOAuthAction} from "../../store/actions/user.action";
 
 
 class LoginForm extends Component {

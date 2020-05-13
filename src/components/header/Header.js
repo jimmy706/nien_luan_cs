@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import Link from "next/link";
 import {Icon} from "office-ui-fabric-react";
 import {connect} from "react-redux";
-import {logoutAction} from "../../redux/actions/user.action";
+import {logoutAction} from "../../store/actions/user.action";
 
 function Header(props) {
     const [openDropdown, setOpenDropdown] = useState(false);

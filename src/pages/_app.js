@@ -2,7 +2,7 @@ import React from 'react';
 import App from "next/app";
 import "../../sass/main.scss";
 import {Provider} from "react-redux";
-import initStore from "../redux/store";
+import initStore from "../store/store";
 import withRedux from "next-redux-wrapper";
 import {isAuth} from "../helpers/auth";
 import jwtDecode from 'jwt-decode';

@@ -5,7 +5,7 @@ import Header from "../components/header/Header";
 import {Icon} from "office-ui-fabric-react";
 import {Dialog,DialogType, DialogFooter, TextField, ContextualMenu, PrimaryButton, DefaultButton} from "office-ui-fabric-react";
 import {connect} from "react-redux";
-import {createBoardAction,setBoardsAction} from "../redux/actions/boards.action";
+import {createBoardAction,setBoardsAction} from "../store/actions/boards.action";
 import axios from 'axios';
 import {GET_BOARDS_URL} from "../constants/APIs";
 import BoardCard from "../components/BoardCard/BoardCard";

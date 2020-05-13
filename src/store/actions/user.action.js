@@ -56,11 +56,14 @@ export function  loginOAuthAction(ggProfile) {
 }
 
 export function logoutAction(){
-    removeAuthToken();
     return dispatchEvent => {
+        dispatchEvent(onLoadAction("Login out..."));
+        removeAuthToken();
         dispatchEvent({
             type: LOGOUT_ACTION
         });
+
+        dispatchEvent(onDoneAction());
         Router.push("/");
     }
 }

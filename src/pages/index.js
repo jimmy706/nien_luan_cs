@@ -1,6 +1,7 @@
 import React from "react";
 import LoginForm from "../components/login-form/LoginForm";
 import Head from "next/head";
+import SpinnerOverlay from "components/Progress/SpinnerOverlay";
 export default function IndexPage() {
   return (
     <div className="landing-page">
@@ -14,6 +15,7 @@ export default function IndexPage() {
       </Head>
 
       <LoginForm />
+      <SpinnerOverlay/>
       <style jsx>
         {`
           .landing-page {
