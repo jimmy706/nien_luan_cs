@@ -1,10 +1,8 @@
 import React, {  Component } from 'react';
 import {connect} from "react-redux";
-import axios from 'axios';
 import Router from 'next/router';
 import {getAuth, isAuth} from "../../helpers/auth";
-import {GET_BOARD_DETAIL_URL} from "../../constants/APIs";
-import {ADD_NEW_LIST_URL} from "../../constants/APIs";
+import * as boardAPIs from "../../API/board.api";
 
 // Components
 import Header from "components/header/Header";
@@ -30,12 +28,16 @@ class BoardDetail extends Component {
     async componentDidMount() {
         if(isAuth()){
             const {boardId} = Router.query;
-            const boardInfo = await axios(`${GET_BOARD_DETAIL_URL}/${boardId}`,{
-                headers: {
-                    'Authorization': `${getAuth().token}`
-                }
-            });
-            this.setState({boardState: boardInfo.data, isLoaded: true});
+            try {
+                const boardInfo = await boardAPIs.getBoardDetail(boardId,{
+                    headers: {
+                        'Authorization': `${getAuth().token}`
+                    }
+                });
+                this.setState({boardState: boardInfo.data, isLoaded: true});
+            }catch (e) {
+                console.log(e);
+            }
         }else {
             Router.push("/");
         }
@@ -45,7 +47,11 @@ class BoardDetail extends Component {
     addNewList = async (listName) => {
         try {
             this.props.onLoad("Creating new list...");
-            const result = await axios.post(`${ADD_NEW_LIST_URL}/${this.state.boardState._id}`,{listName});
+            const result = await boardAPIs.addNewList(this.state.boardState._id, listName, {
+                headers: {
+                    'Authorization': `${getAuth().token}`
+                }
+            });
             this.setState({boardState: result.data});
             this.props.onDone();
         }

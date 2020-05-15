@@ -12,13 +12,13 @@ import { initializeIcons } from "@uifabric/icons";
 initializeIcons(undefined, { disableWarnings: true });
 
 class MyApp extends App {
-  static async getInitialProps({ Component, ctx }) {
-    const pageProps = Component.getInitialProps
-      ? await Component.getInitialProps(ctx)
-      : {};
-
-    return { pageProps };
-  }
+  // static async getInitialProps({ Component, ctx }) {
+  //   const pageProps = Component.getInitialProps
+  //     ? await Component.getInitialProps(ctx)
+  //     : {};
+  //
+  //   return { pageProps };
+  // }
 
   componentDidMount() {
     // TODO: Handle jwt that store in localStorage

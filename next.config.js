@@ -8,7 +8,8 @@ const folders = [
     "helpers",
     "pages",
     "store",
-    "validation"
+    "validation",
+    "API"
 ];
 
 module.exports = withCss(withSass({

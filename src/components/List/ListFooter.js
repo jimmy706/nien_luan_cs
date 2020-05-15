@@ -1,5 +1,6 @@
 import React,{useState} from 'react';
 import {Icon, TextField, PrimaryButton, IconButton} from "office-ui-fabric-react";
+import * as cardAPIs from "../../API/card.api";
 
 
 function ListFooter(props) {
@@ -18,8 +19,13 @@ function ListFooter(props) {
         setCardName(e.target.value);
     }
 
-    function handleAddCard() {
+    async function handleAddCard() {
 
+        if(props.listInfo) {
+           const newCardResult = await cardAPIs.addNewCard(props.listInfo._id, cardName);
+           console.log(newCardResult.data);
+           setOpenForm(false);
+        }
     }
 
     function renderForm() {
