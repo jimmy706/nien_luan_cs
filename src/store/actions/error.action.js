@@ -13,3 +13,9 @@ export function removeError() {
         type: REMOVE_ERROR
     }
 }
+
+export function removeErrorAction() {
+    return dispatchEvent => {
+        dispatchEvent(removeError());
+    }
+}

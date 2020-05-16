@@ -2,7 +2,9 @@ import {
   TextField,
   PrimaryButton,
   Stack,
-  DefaultButton
+  DefaultButton,
+  MessageBar,
+  MessageBarType
 } from "office-ui-fabric-react";
 import React, { Component } from "react";
 import Link from "next/link";
@@ -13,6 +15,8 @@ import {WRONG_REPEAT_PASSWORD} from "../../constants/error-message";
 import Router from "next/router";
 import {connect} from "react-redux";
 import {onDoneAction, onLoadAction} from "../../store/actions/progress.action";
+import {removeError, setErrorAct} from "../../store/actions/error.action";
+
 
 class RegisterForm extends Component {
   constructor(props) {
@@ -32,16 +36,22 @@ class RegisterForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    props.onLoadAct("Creating account...");
+    this.props.onLoadAct("Creating account...");
+
     axios
       .post(CREATE_ACCOUNT_URL, this.state.form)
       .then(res => {
-        props.onDoneAct();
+        this.props.onDoneAct();
         Router.push("/");
       })
       .catch(err => {
-        const errors = err.response.data;
-        this.setState({errors});
+        if(err.response){
+          const errors = err.response.data;
+          this.props.setErrorAct(errors);
+        }
+        else {
+          console.log(err);
+        }
       });
   };
 
@@ -65,6 +75,14 @@ class RegisterForm extends Component {
    }
   };
 
+  renderErrors = () => {
+    let errorMessages = [];
+    for(const e in this.props.errors) {
+      errorMessages.push(this.props.errors[e]);
+    }
+    return errorMessages;
+  };
+
   render() {
     const inlineTextFieldStyles = {
       root: {
@@ -74,6 +92,11 @@ class RegisterForm extends Component {
 
     return (
       <form className="register-form" onSubmit={this.handleSubmit}>
+        {Object.keys(this.props.errors).length ? (
+            <MessageBar  messageBarType={MessageBarType.error} isMultiline={false}  dismissButtonAriaLabel="Close" onDismiss={this.props.removeError}>
+              {this.renderErrors()}
+            </MessageBar>
+        ): null}
         <Stack tokens={{ childrenGap: 10 }}>
           <TextField
             label="Email"
@@ -182,7 +205,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onDoneAct: () => dispatch(onDoneAction()),
-    onLoadAct: (label) => dispatch(onLoadAction(label))
+    onLoadAct: (label) => dispatch(onLoadAction(label)),
+    removeError: () => dispatch(removeError()),
+    setErrorAct: (errors) => dispatch(setErrorAct(errors))
   }
 };
 

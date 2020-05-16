@@ -22,8 +22,8 @@ export function loginAction(userInfo) {
             const user = jwtDecode(token);
             setToken(token,user.exp * 1000);
             dispatchEvent(setCurrentUserAct(user));
-            Router.push("/boards");
             dispatchEvent(removeError());
+            Router.push("/boards");
         }
         catch (err) {
             dispatchEvent(setErrorAct(err.response.data));
@@ -43,6 +43,7 @@ export function  loginOAuthAction(ggProfile) {
            const user = jwtDecode(token);
            setToken(token,user.exp * 1000);
            dispatchEvent(setCurrentUserAct(user));
+           dispatchEvent(removeError());
            Router.push("/boards");
        }
        catch (e) {

@@ -3,7 +3,7 @@ import { TextField, PrimaryButton, Stack, MessageBar,MessageBarType } from "offi
 import Link from "next/link";
 import {connect} from 'react-redux';
 import {loginAction, loginOAuthAction} from "../../store/actions/user.action";
-
+import {removeErrorAction} from "../../store/actions/error.action";
 
 class LoginForm extends Component {
   constructor(props) {
@@ -62,15 +62,9 @@ class LoginForm extends Component {
     this.props.loginOAuthAction(ggProfile);
   };
 
-  resetError = () => {
-    this.setState({
-      errors: {}
-    })
-  };
-
   renderErrors = () => {
     let errorMessages = [];
-    for(const e in this.props.errors) {
+    for(let e in this.props.errors) {
       errorMessages.push(this.props.errors[e]);
     }
     return errorMessages;
@@ -80,7 +74,7 @@ class LoginForm extends Component {
     return (
       <form className="login-form" onSubmit={this.handleSubmit}>
         {Object.keys(this.props.errors).length ? (
-            <MessageBar  messageBarType={MessageBarType.error} isMultiline={false}  dismissButtonAriaLabel="Close" onDismiss={this.resetError}>
+            <MessageBar  messageBarType={MessageBarType.error} isMultiline={false}  dismissButtonAriaLabel="Close" onDismiss={this.props.removeErrorAction}>
               {this.renderErrors()}
             </MessageBar>
         ): null}
@@ -143,7 +137,10 @@ const mapStateToProps = (state) => {
   }
 };
 
+
+
 export default connect(mapStateToProps,{
   loginAction,
-  loginOAuthAction
+  loginOAuthAction,
+  removeErrorAction
 })(LoginForm);
