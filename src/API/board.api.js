@@ -16,3 +16,7 @@ export function getBoardDetail(boardId, config) {
 export function addNewList(boardId, listName, config) {
     return axios.post(URLs.ADD_NEW_LIST_URL + boardId, {listName}, config);
 }
+
+export function changeBoardName(boardId, boardName, config) {
+    return axios.put(URLs.CHANGE_BOARD_NAME_URL + boardId, {boardName}, config);
+}

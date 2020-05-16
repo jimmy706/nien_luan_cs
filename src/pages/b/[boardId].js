@@ -67,11 +67,11 @@ class BoardDetail extends Component {
     };
 
     render() {
-        const {boardState} = this.state;
+        const {boardState, isLoaded} = this.state;
         return (
             <div className={"board-detail-page"} style={{minHeight:"100vh", backgroundColor: boardState.theme}}>
                 <Header/>
-                <BoardHeader boardName={boardState.boardName}/>
+                {isLoaded ? <BoardHeader boardName={boardState.boardName} boardId={boardState._id}/> : null}
                 <div className="board-content">
                     <div className="container-fluid">
                         <div className="lists-wrapper" style={{display:"flex",alignItems: "start"}}>
