@@ -21,12 +21,18 @@ export function loginAction(userInfo) {
             const token = loginSuccess.data.token;
             const user = jwtDecode(token);
             setToken(token,user.exp * 1000);
+
             dispatchEvent(setCurrentUserAct(user));
             dispatchEvent(removeError());
             Router.push("/boards");
         }
         catch (err) {
-            dispatchEvent(setErrorAct(err.response.data));
+            if(err.response) {
+                dispatchEvent(setErrorAct(err.response.data));
+            }
+            else {
+                console.log(err);
+            }
         }
         finally {
             dispatchEvent(onDoneAction());
@@ -47,7 +53,7 @@ export function  loginOAuthAction(ggProfile) {
            Router.push("/boards");
        }
        catch (e) {
-           console.log(e.response);
+           console.log(e);
        }
        finally {
            dispatchEvent(onDoneAction());

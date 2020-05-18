@@ -1,6 +1,6 @@
 import React from 'react';
 import App from "next/app";
-import "../../sass/main.scss";
+import "sass/main.scss";
 import {Provider} from "react-redux";
 import initStore from "../store/store";
 import withRedux from "next-redux-wrapper";
@@ -10,6 +10,7 @@ import {LOGIN_ACTION} from "../constants/action-types";
 import Router from "next/router";
 import { initializeIcons } from "@uifabric/icons";
 initializeIcons(undefined, { disableWarnings: true });
+import { CookiesProvider } from 'react-cookie';
 
 class MyApp extends App {
   // static async getInitialProps({ Component, ctx }) {
@@ -37,9 +38,11 @@ class MyApp extends App {
   render() {
     const { Component, pageProps,store } = this.props;
     return (
-        <Provider store={store}>
-          <Component {...pageProps} />
-        </Provider>
+        <CookiesProvider>
+          <Provider store={store}>
+            <Component {...pageProps} />
+          </Provider>
+        </CookiesProvider>
     );
   }
 }

@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import ListHeader from "./ListHeader";
 import ListFooter from "./ListFooter";
 import * as cardAPIs from "../../API/card.api";
+import Card from "../Card/Card";
 
 class List extends Component{
     constructor(props) {
@@ -12,6 +13,7 @@ class List extends Component{
             openCard: false
         }
     }
+
 
     handleChangeOpenForm = (value) => {
         this.setState({
@@ -26,7 +28,23 @@ class List extends Component{
     };
 
     renderCards = () => {
+        return this.state.cards.map(card => <Card key={card._id} card={card}/>)
+    };
 
+    handleAddNewCard = (newCard) => {
+        this.setState((state) => {
+            return {
+                cards: [...state.cards, newCard]
+            }
+        })
+    };
+
+    handleRemoveCard = (cardId) => {
+        this.setState((state) => {
+            return {
+                cards: state.cards.filter(card => card._id !== cardId)
+            }
+        })
     };
 
     async componentDidMount() {
@@ -53,11 +71,13 @@ class List extends Component{
                     deleteList={this.props.deleteList}
                 />
                 <div className="list-body">
+                    {this.renderCards()}
                 </div>
                 <ListFooter
                     openForm={this.state.openCard}
                     setOpenForm={this.handleChangeOpenForm}
                     listInfo={this.props.listInfo}
+                    handleAddCard={this.handleAddNewCard}
                 />
             </div>
         )

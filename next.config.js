@@ -20,6 +20,7 @@ module.exports = withCss(withSass({
         folders.forEach(folder => {
             config.resolve.alias[folder] = path.join(__dirname ,"/src/",  folder);
         });
+        config.resolve.alias['sass'] = path.join(__dirname, "sass");
         return config;
     }
 }));

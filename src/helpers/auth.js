@@ -1,13 +1,14 @@
 import axios from "axios";
+import Cookies from 'js-cookie';
 
 
 export function setToken(token, exp) {
     localStorage.setItem("jwtToken",JSON.stringify({token, expire: exp}));
+    Cookies.set("jwt", token, {expires: 1});
     axios.defaults.headers.common['Authorization'] = token;
 }
 
 export function isAuth() {
-
     const jwt = JSON.parse(localStorage.getItem("jwtToken"));
     if(!jwt) {
         return false;
@@ -31,4 +32,5 @@ export function getAuth() {
 export function removeAuthToken() {
     localStorage.removeItem('jwtToken');
     delete axios.defaults.headers.common['Authorization'];
+    Cookies.remove('jwt')
 }

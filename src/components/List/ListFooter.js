@@ -25,9 +25,9 @@ function ListFooter(props) {
            const newCardResult = await cardAPIs.addNewCard(props.listInfo._id, cardName);
 
            if(newCardResult.status === 200) {
-               console.log(newCardResult.data);
                setOpenForm(false);
                setCardName("");
+               props.handleAddCard(newCardResult.data);
            }
         }
     }
