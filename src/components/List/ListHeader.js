@@ -1,15 +1,15 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Icon} from "office-ui-fabric-react";
-import * as listAPIs from "../../API/list.api";
 
 function ListHeader(props) {
+    const inputNameRef = useRef(null);
+    const [openInput, setOpenInput] = useState(false);
+    const [openHiddenMenu, setOpenHiddenMenu] = useState(false);
 
     function handleOpenInput() {
         setOpenInput(true);
     }
-    const inputNameRef = useRef(null);
-    const [openInput, setOpenInput] = useState(false);
-    const [openHiddenMenu, setOpenHiddenMenu] = useState(false);
+
 
     useEffect(()=>{
         if(openInput){
@@ -22,10 +22,20 @@ function ListHeader(props) {
         setOpenInput(false);
     }
 
+    function handleOpenCardForm() {
+        setOpenHiddenMenu(false);
+        props.setOpenForm(true);
+    }
+
+    async function handleDeleteList() {
+       props.deleteList(props.listInfo._id);
+       setOpenHiddenMenu(false);
+    }
+
     return (
         <div className="list-header">
             <div className="list-name-wrapper" onClick={handleOpenInput}>
-                <input className="list-name" defaultValue={props.listName} disabled={!openInput ? 'disabled' : ''}
+                <input className="list-name" defaultValue={props.listInfo.listName} disabled={!openInput ? 'disabled' : ''}
                        ref={inputNameRef}
                        onBlur={handleChangeListName}
                 />
@@ -45,13 +55,16 @@ function ListHeader(props) {
                 </div>
                 <div className="menu-body">
                     <ul className="action-list">
-                        <li>
+                        <li onClick={handleOpenCardForm}>
                             Add card...
                         </li>
-                        <li onClick={handleOpenInput}>
+                        <li onClick={()=>{
+                            handleOpenInput();
+                            setOpenHiddenMenu(false);
+                        }}>
                             Change list name
                         </li>
-                        <li>
+                        <li onClick={handleDeleteList}>
                             Delete list
                         </li>
                     </ul>

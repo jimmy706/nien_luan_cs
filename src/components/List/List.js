@@ -8,9 +8,16 @@ class List extends Component{
         super(props);
         this.state = {
             listName: this.props.listInfo.listName,
-            cards: []
+            cards: [],
+            openCard: false
         }
     }
+
+    handleChangeOpenForm = (value) => {
+        this.setState({
+            openCard: value
+        })
+    };
 
     setListName = (name) => {
         this.setState({
@@ -26,7 +33,6 @@ class List extends Component{
         if(process.browser){
             try {
                 const cardResult = await cardAPIs.listCard(this.props.listInfo._id);
-                console.log(cardResult.data);
                 this.setState({
                     cards: cardResult.data
                 })
@@ -38,13 +44,21 @@ class List extends Component{
     }
 
     render() {
-        const {listName} = this.state;
         return (
             <div className="list-card">
-                <ListHeader listName={listName} setListName={this.setListName}/>
+                <ListHeader
+                    listInfo={this.props.listInfo}
+                    setListName={this.setListName}
+                    setOpenForm={this.handleChangeOpenForm}
+                    deleteList={this.props.deleteList}
+                />
                 <div className="list-body">
                 </div>
-                <ListFooter listInfo={this.props.listInfo}/>
+                <ListFooter
+                    openForm={this.state.openCard}
+                    setOpenForm={this.handleChangeOpenForm}
+                    listInfo={this.props.listInfo}
+                />
             </div>
         )
     }

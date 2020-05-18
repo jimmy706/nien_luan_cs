@@ -11,6 +11,7 @@ import AddList from "components/List/AddList";
 import List from "components/List/List";
 import SpinnerOverlay from "components/Progress/SpinnerOverlay";
 import { onLoadAction, onDoneAction } from "store/actions/progress.action";
+import * as listAPIs from "../../API/list.api";
 
 class BoardDetail extends Component {
     constructor(props) {
@@ -62,22 +63,45 @@ class BoardDetail extends Component {
 
      renderList = () => {
         return this.state.boardState.lists.map(list => {
-            return <List listInfo={list} key={list._id}/>
+            return <List
+                    deleteList={this.deleteList}
+                     listInfo={list}
+                     key={list._id}
+            />
         })
     };
+
+     deleteList = async (listId) => {
+         const {boardId} = Router.query;
+         try {
+             const result = await listAPIs.deleteList(boardId,listId, {
+                 headers: {
+                     'Authorization': `${getAuth().token}`
+                 }
+             });
+             if(result.status === 200) {
+                 this.setState((state)=> {
+                     return {
+                         boardState: {...state.boardState, lists: state.boardState.lists.filter(l => l._id !== listId)}
+                     }
+                 })
+             }
+         }
+         catch (e) {
+             console.log(e);
+         }
+     };
 
     render() {
         const {boardState, isLoaded} = this.state;
         return (
-            <div className={"board-detail-page"} style={{minHeight:"100vh", backgroundColor: boardState.theme}}>
+            <div className={"board-detail-page"} style={{ backgroundColor: boardState.theme}}>
                 <Header/>
                 {isLoaded ? <BoardHeader boardName={boardState.boardName} boardId={boardState._id}/> : null}
                 <div className="board-content">
-                    <div className="container-fluid">
-                        <div className="lists-wrapper" style={{display:"flex",alignItems: "start"}}>
-                            {this.renderList()}
-                            <AddList addNewList={this.addNewList}/>
-                        </div>
+                    <div className="lists-wrapper" style={{display:"flex",alignItems: "start"}}>
+                        {this.renderList()}
+                        <AddList addNewList={this.addNewList}/>
                     </div>
                 </div>
                 <SpinnerOverlay/>

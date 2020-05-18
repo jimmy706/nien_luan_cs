@@ -4,7 +4,7 @@ import * as cardAPIs from "../../API/card.api";
 
 
 function ListFooter(props) {
-    const [openForm, setOpenForm] = useState(false);
+    const { openForm, setOpenForm } = props;
     const [cardName, setCardName] = useState('');
 
     function handleCloseForm() {
@@ -19,18 +19,22 @@ function ListFooter(props) {
         setCardName(e.target.value);
     }
 
-    async function handleAddCard() {
-
+    async function handleAddCard(e) {
+        e.preventDefault();
         if(props.listInfo) {
            const newCardResult = await cardAPIs.addNewCard(props.listInfo._id, cardName);
-           console.log(newCardResult.data);
-           setOpenForm(false);
+
+           if(newCardResult.status === 200) {
+               console.log(newCardResult.data);
+               setOpenForm(false);
+               setCardName("");
+           }
         }
     }
 
     function renderForm() {
         return (
-            <form className="add-card-form">
+            <form className="add-card-form" onSubmit={handleAddCard}>
                 <TextField placeholder="Enter a card title..." value={cardName} onChange={handleChangeName}/>
                 <div className="button-wrapper">
                     <span style={{
@@ -42,7 +46,7 @@ function ListFooter(props) {
                                 iconName: 'ChromeClose'
                             }} title="Close form" ariaLabel="Close form" />
                     </span>
-                    <PrimaryButton text="Add card" onClick={handleAddCard}/>
+                    <PrimaryButton text="Add card" type="submit"/>
                 </div>
             </form>
         )

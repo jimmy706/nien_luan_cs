@@ -40,12 +40,14 @@ class Boards extends Component {
         if(!isAuth()){
             Router.push("/");
         }
-        const boards = await axios(GET_BOARDS_URL,{
-            headers: {
-                'Authorization': `${getAuth().token}`
-            }
-        });
-        this.props.setBoardsAction(boards.data);
+       else {
+            const boards = await axios(GET_BOARDS_URL,{
+                headers: {
+                    'Authorization': `${getAuth().token}`
+                }
+            });
+            this.props.setBoardsAction(boards.data);
+        }
     }
 
     closeDialog = () => {
