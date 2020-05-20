@@ -13,13 +13,13 @@ initializeIcons(undefined, { disableWarnings: true });
 import { CookiesProvider } from 'react-cookie';
 
 class MyApp extends App {
-  // static async getInitialProps({ Component, ctx }) {
-  //   const pageProps = Component.getInitialProps
-  //     ? await Component.getInitialProps(ctx)
-  //     : {};
-  //
-  //   return { pageProps };
-  // }
+  static async getInitialProps({ Component, ctx }) {
+    const pageProps = Component.getInitialProps
+      ? await Component.getInitialProps(ctx)
+      : {};
+
+    return { pageProps };
+  }
 
   componentDidMount() {
     // TODO: Handle jwt that store in localStorage
@@ -31,7 +31,6 @@ class MyApp extends App {
         type: LOGIN_ACTION,
         payload: {user}
       });
-      Router.push("/boards");
     }
   }
 

@@ -36,50 +36,6 @@
         background-color: rgba(255,255,255,.3);
       }
     }
-    .hidden-menu {
-      box-shadow: 0 0 4px 1px rgba(0,0,0,.2);
-      position: absolute;
-      z-index: 40;
-      opacity: 0;
-      visibility: hidden;
-      transition: all .3s ease;
-      background-color: #fff;
-      padding: 15px 10px;
-      border-radius: 4px;
-      width: 280px;
-      top: 0;
-      right: 0;
-      transform: translate(100%,0);
-      &.open{
-        opacity: 1;
-        visibility: visible;
-      }
-      .menu-header{
-        position: relative;
-        text-align: center;
-        .toggle-close {
-          position: absolute;
-          cursor: pointer;
-          right: 0;
-          opacity: .8;
-          transition: opacity .2s ease;
-          &:hover {
-            opacity: 1;
-          }
-        }
-      }
-      .menu-body{
-        li{
-          display: block;
-          cursor: pointer;
-          background-color: inherit;
-          padding: 5px;
-          &:hover {
-            background-color: rgba(9,30,66,.04);
-          }
-        }
-      }
-    }
   }
 
   .list-footer {

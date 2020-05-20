@@ -1,15 +1,34 @@
 .board-header{
   @extend  #header;
+
   padding: 5px 0;
   background-color: rgba(255,255,255,.2);
   color: #fff;
   margin-bottom: 28px;
   z-index: 40;
+  & > .container-fluid{
+    justify-content: flex-start;
+  }
+  .wrap-box {
+    padding: 0 10px;
+    &:not(:last-child) {
+      border-right: 1px solid #eee;
+    }
+  }
+  .member-wrap{
+    display: flex;
+    align-items: center;
+    .ms-Persona-details{
+      display: none;
+    }
+    .ms-Facepile{
+      margin-right: 15px;
+    }
+  }
   .board-name-wrapp {
     display: flex;
     align-items: center;
-    padding: 0 10px;
-    border-right: 1px solid #eee;
+
     .board-name{
       margin: 0 15px 0 0;
       position: relative;

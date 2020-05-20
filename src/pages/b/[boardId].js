@@ -12,38 +12,40 @@ import List from "components/List/List";
 import SpinnerOverlay from "components/Progress/SpinnerOverlay";
 import { onLoadAction, onDoneAction } from "store/actions/progress.action";
 import * as listAPIs from "../../API/list.api";
+import cookies from "next-cookies";
 
 class BoardDetail extends Component {
+    static async getInitialProps(context) {
+        const {query, res, store} = context;
+        const { boardId } = query;
+        const token = cookies(context).jwt;
+        if(!token) {
+            res.writeHead(302, { Location: "/?redirect=/looking-for" });
+            res.end();
+        }
+       try {
+           const boardDetailResult = await boardAPIs.getBoardDetail(boardId,{
+               headers: {
+                   'Authorization': token
+               }
+           });
+           return {
+               boardDetail: boardDetailResult.data
+           }
+       }
+        catch (e) {
+            return {
+                boardDetail: null
+            }
+        }
+    }
+
     constructor(props) {
         super(props);
         this.state = {
-            isLoaded: false,
-            boardState: {
-                boardName: "",
-                lists: [],
-                theme: "#ddd"
-            }
+            boardState: this.props.boardDetail
         }
     }
-
-    async componentDidMount() {
-        if(isAuth()){
-            const {boardId} = Router.query;
-            try {
-                const boardInfo = await boardAPIs.getBoardDetail(boardId,{
-                    headers: {
-                        'Authorization': `${getAuth().token}`
-                    }
-                });
-                this.setState({boardState: boardInfo.data, isLoaded: true});
-            }catch (e) {
-                console.log(e);
-            }
-        }else {
-            Router.push("/");
-        }
-    }
-
 
     addNewList = async (listName) => {
         try {
@@ -93,11 +95,11 @@ class BoardDetail extends Component {
      };
 
     render() {
-        const {boardState, isLoaded} = this.state;
+        const {boardState} = this.state;
         return (
             <div className={"board-detail-page"} style={{ backgroundColor: boardState.theme}}>
                 <Header/>
-                {isLoaded ? <BoardHeader boardName={boardState.boardName} boardId={boardState._id}/> : null}
+                <BoardHeader boardDetail={boardState} boardId={boardState._id}/>
                 <div className="board-content">
                     <div className="lists-wrapper" style={{display:"flex",alignItems: "start"}}>
                         {this.renderList()}
