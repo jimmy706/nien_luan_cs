@@ -28,7 +28,7 @@ class List extends Component{
     };
 
     renderCards = () => {
-        return this.state.cards.map(card => <Card key={card._id} card={card}/>)
+        return this.state.cards.map(card => <Card key={card._id} handleOpenCardModal={this.props.handleOpenCardModal} card={card}/>)
     };
 
     handleAddNewCard = (newCard) => {

@@ -35,7 +35,7 @@ function ListHeader(props) {
     return (
         <div className="list-header">
             <div className="list-name-wrapper" onClick={handleOpenInput}>
-                <input className="list-name" defaultValue={props.listInfo.listName} disabled={!openInput ? 'disabled' : ''}
+                <input className="list-name form-control" defaultValue={props.listInfo.listName} disabled={!openInput ? 'disabled' : ''}
                        ref={inputNameRef}
                        onBlur={handleChangeListName}
                 />

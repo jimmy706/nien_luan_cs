@@ -24,11 +24,13 @@
     "node-sass": "^4.14.1",
     "office-ui-fabric-react": "^7.110.3",
     "react": "^16.13.1",
+    "react-autosize-textarea": "^7.0.0",
     "react-cookie": "^4.0.3",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "showdown": "^1.9.1"
   }
 }

@@ -2,6 +2,9 @@
   min-height: 100vh;
   overflow: hidden;
   max-width: 100%;
+  .ms-Modal-scrollableContent{
+    overflow: hidden!important;
+  }
   .board-content {
     padding: 0 20px;
   }

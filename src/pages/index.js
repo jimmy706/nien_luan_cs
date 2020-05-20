@@ -2,7 +2,9 @@ import React from "react";
 import LoginForm from "../components/login-form/LoginForm";
 import Head from "next/head";
 import SpinnerOverlay from "components/Progress/SpinnerOverlay";
+import cookies from "next-cookies";
 export default function IndexPage() {
+
   return (
     <div className="landing-page">
       <Head>
@@ -30,3 +32,13 @@ export default function IndexPage() {
     </div>
   );
 }
+
+IndexPage.getInitialProps = (context) => {
+    const {res} = context;
+    const token = cookies(context).jwt;
+    if(token) {
+        res.writeHead(302, { Location: "/boards" });
+        res.end();
+    }
+    return {};
+};

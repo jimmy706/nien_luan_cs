@@ -13,20 +13,6 @@
     .list-name-wrapper{
       cursor: pointer;
     }
-    .list-name {
-      font-weight: 600;
-      border: 0;
-      margin-right: 5px;
-      padding: 5px 10px;
-      background-color: #fff;
-      &:focus{
-        outline: #026aa7 solid 2px;
-      }
-      &:disabled{
-        background-color: transparent;
-        cursor: pointer;
-      }
-    }
     .toggle-menu{
       padding: 5px;
       border-radius: 3px;

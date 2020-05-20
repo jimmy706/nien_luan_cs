@@ -1,8 +1,10 @@
 import React, {  Component } from 'react';
 import {connect} from "react-redux";
 import Router from 'next/router';
-import {getAuth, isAuth} from "../../helpers/auth";
+import {getAuth} from "../../helpers/auth";
 import * as boardAPIs from "../../API/board.api";
+import {fetchCardAction} from "../../store/actions/card.action";
+import {withCookies} from 'react-cookie';
 
 // Components
 import Header from "components/header/Header";
@@ -13,8 +15,31 @@ import SpinnerOverlay from "components/Progress/SpinnerOverlay";
 import { onLoadAction, onDoneAction } from "store/actions/progress.action";
 import * as listAPIs from "../../API/list.api";
 import cookies from "next-cookies";
+import {Modal, } from 'office-ui-fabric-react';
+import CardDetailModal from "../../components/CardDetailModal/CardDetailModal";
 
 class BoardDetail extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            boardState: this.props.boardDetail,
+            openModal: false
+        }
+    }
+
+    handleOpenCardModal = (cardId) => {
+        const { cookies, fetchCardAction,cardState } = this.props;
+        const token = cookies.get("jwt");
+        fetchCardAction(cardId, token);
+        this.setState({openModal: true});
+    };
+
+    handleCloseCardModal = () => {
+        this.setState({
+            openModal: false
+        })
+    };
+
     static async getInitialProps(context) {
         const {query, res, store} = context;
         const { boardId } = query;
@@ -40,13 +65,6 @@ class BoardDetail extends Component {
         }
     }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            boardState: this.props.boardDetail
-        }
-    }
-
     addNewList = async (listName) => {
         try {
             this.props.onLoad("Creating new list...");
@@ -69,6 +87,7 @@ class BoardDetail extends Component {
                     deleteList={this.deleteList}
                      listInfo={list}
                      key={list._id}
+                    handleOpenCardModal={this.handleOpenCardModal}
             />
         })
     };
@@ -95,7 +114,7 @@ class BoardDetail extends Component {
      };
 
     render() {
-        const {boardState} = this.state;
+        const {boardState, openModal} = this.state;
         return (
             <div className={"board-detail-page"} style={{ backgroundColor: boardState.theme}}>
                 <Header/>
@@ -107,16 +126,26 @@ class BoardDetail extends Component {
                     </div>
                 </div>
                 <SpinnerOverlay/>
+                <Modal onDismiss={this.handleCloseCardModal} isOpen={openModal}>
+                    <CardDetailModal handleCloseCardModal={this.handleCloseCardModal}/>
+                </Modal>
             </div>
         )
     }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
     return {
-        onLoad: (label) => dispatch(onLoadAction(label)),
-        onDone: () => dispatch(onDoneAction())
+        cardState: state.cardState
     }
 };
 
-export default connect(null,mapDispatchToProps)(BoardDetail);
+const mapDispatchToProps = dispatch => {
+    return {
+        onLoad: (label) => dispatch(onLoadAction(label)),
+        onDone: () => dispatch(onDoneAction()),
+        fetchCardAction: (cardId, token) => dispatch(fetchCardAction(cardId,token))
+    }
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(withCookies(BoardDetail));

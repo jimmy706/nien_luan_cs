@@ -8,3 +8,11 @@ export function listCard(listId) {
 export function addNewCard(listId, cardTitle) {
     return axios.post(URLs.ADD_CARD + listId, {cardTitle});
 }
+
+export function updateCardDescription(cardId, description, token) {
+    return axios.put(URLs.UPDATE_CARD_DESC + cardId, {description}, {
+        headers: {
+            'Authorization': token
+        }
+    })
+}

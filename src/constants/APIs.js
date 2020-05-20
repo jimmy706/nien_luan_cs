@@ -15,3 +15,5 @@ export const DELETE_LIST_URL = `${BASE_URL}/boards/delete-list`;
 
 export const ADD_CARD = `${BASE_URL}/cards/create/`;
 export const LIST_CARD = `${BASE_URL}/cards/`;
+export const GET_CARD_DETAIL = `${BASE_URL}/cards/detail/`;
+export const UPDATE_CARD_DESC = `${BASE_URL}/cards/update/desc/`;

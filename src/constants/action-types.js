@@ -7,3 +7,8 @@ export const GET_BOARDS = "GET_BOARDS";
 export const DELETE_BOARD = "DELETE_BOARD";
 export const ON_LOAD = "ON_LOAD";
 export const ON_DONE = "ON_DONE";
+
+export const GET_CARD_PENDING = "GET_CARD_PENDING";
+export const GET_CARD_ERROR = "GET_CARD_ERROR";
+export const GET_CARD_SUCCESS = "GET_CARD_SUCCESS";
+export const UPDATE_CARD = "UPDATE_CARD";

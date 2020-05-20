@@ -14,3 +14,20 @@
   background-color: #ddd;
   margin-bottom: 15px;
 }
+
+.form-control{
+  font-weight: 600;
+  border: 0;
+  margin-right: 5px;
+  padding: 5px 10px;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  &:focus{
+    outline: #026aa7 solid 2px;
+  }
+  &:disabled{
+    background-color: transparent;
+    cursor: pointer;
+  }
+}
