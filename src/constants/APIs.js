@@ -17,3 +17,5 @@ export const ADD_CARD = `${BASE_URL}/cards/create/`;
 export const LIST_CARD = `${BASE_URL}/cards/`;
 export const GET_CARD_DETAIL = `${BASE_URL}/cards/detail/`;
 export const UPDATE_CARD_DESC = `${BASE_URL}/cards/update/desc/`;
+
+export const SEARCH_USER = `${BASE_URL}/user/mail`;

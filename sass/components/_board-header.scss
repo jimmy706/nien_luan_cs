@@ -1,12 +1,12 @@
-.board-header{
-  @extend  #header;
+.board-header {
+  @extend #header;
 
   padding: 5px 0;
-  background-color: rgba(255,255,255,.2);
+  background-color: rgba(255, 255, 255, 0.2);
   color: #fff;
   margin-bottom: 28px;
   z-index: 40;
-  & > .container-fluid{
+  & > .container-fluid {
     justify-content: flex-start;
   }
   .wrap-box {
@@ -15,13 +15,13 @@
       border-right: 1px solid #eee;
     }
   }
-  .member-wrap{
+  .member-wrap {
     display: flex;
     align-items: center;
-    .ms-Persona-details{
+    .ms-Persona-details {
       display: none;
     }
-    .ms-Facepile{
+    .ms-Facepile {
       margin-right: 15px;
     }
   }
@@ -29,7 +29,7 @@
     display: flex;
     align-items: center;
 
-    .board-name{
+    .board-name {
       margin: 0 15px 0 0;
       position: relative;
       input[type="text"] {
@@ -54,12 +54,12 @@
         left: 0;
         transform: scaleX(0);
         transform-origin: left;
-        transition: all .4s ease;
+        transition: all 0.4s ease;
         margin: 0;
       }
     }
   }
-  .icon-wrapper{
-    background-color: rgba(200,200,200,.4);
+  .icon-wrapper {
+    background-color: rgba(200, 200, 200, 0.4);
   }
 }

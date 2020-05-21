@@ -23,6 +23,7 @@
     "next-redux-wrapper": "^5.0.0",
     "node-sass": "^4.14.1",
     "office-ui-fabric-react": "^7.110.3",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-autosize-textarea": "^7.0.0",
     "react-cookie": "^4.0.3",

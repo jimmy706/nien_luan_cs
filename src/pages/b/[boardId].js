@@ -1,10 +1,11 @@
-import React, {  Component } from 'react';
-import {connect} from "react-redux";
-import Router from 'next/router';
-import {getAuth} from "../../helpers/auth";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import Router from "next/router";
+import { getAuth } from "../../helpers/auth";
 import * as boardAPIs from "../../API/board.api";
-import {fetchCardAction} from "../../store/actions/card.action";
-import {withCookies} from 'react-cookie';
+import { fetchCardAction } from "../../store/actions/card.action";
+import { withCookies } from "react-cookie";
+import * as boardDetailAction from "../../store/actions/board-detail.action";
 
 // Components
 import Header from "components/header/Header";
@@ -15,137 +16,143 @@ import SpinnerOverlay from "components/Progress/SpinnerOverlay";
 import { onLoadAction, onDoneAction } from "store/actions/progress.action";
 import * as listAPIs from "../../API/list.api";
 import cookies from "next-cookies";
-import {Modal, } from 'office-ui-fabric-react';
+import { Modal } from "office-ui-fabric-react";
 import CardDetailModal from "../../components/CardDetailModal/CardDetailModal";
 
 class BoardDetail extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            boardState: this.props.boardDetail,
-            openModal: false
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+      openModal: false,
+    };
+  }
+
+  static async getInitialProps(context) {
+    const { query, res, store } = context;
+    const { boardId } = query;
+    const token = cookies(context).jwt;
+    if (!token) {
+      res.writeHead(302, { Location: "/?redirect=/looking-for" });
+      res.end();
     }
+    store.dispatch(
+      boardDetailAction.fetchBoardDetail(boardId, {
+        headers: {
+          Authorization: token,
+        },
+      })
+    );
+    return {};
+  }
 
-    handleOpenCardModal = (cardId) => {
-        const { cookies, fetchCardAction,cardState } = this.props;
-        const token = cookies.get("jwt");
-        fetchCardAction(cardId, token);
-        this.setState({openModal: true});
-    };
+  handleOpenCardModal = (cardId) => {
+    const { cookies, fetchCardAction, cardState } = this.props;
+    const token = cookies.get("jwt");
+    fetchCardAction(cardId, token);
+    this.setState({ openModal: true });
+  };
 
-    handleCloseCardModal = () => {
-        this.setState({
-            openModal: false
-        })
-    };
+  handleCloseCardModal = () => {
+    this.setState({
+      openModal: false,
+    });
+  };
 
-    static async getInitialProps(context) {
-        const {query, res, store} = context;
-        const { boardId } = query;
-        const token = cookies(context).jwt;
-        if(!token) {
-            res.writeHead(302, { Location: "/?redirect=/looking-for" });
-            res.end();
-        }
-       try {
-           const boardDetailResult = await boardAPIs.getBoardDetail(boardId,{
-               headers: {
-                   'Authorization': token
-               }
-           });
-           return {
-               boardDetail: boardDetailResult.data
-           }
-       }
-        catch (e) {
-            return {
-                boardDetail: null
-            }
-        }
+  addNewList = async (listName) => {
+    const { boardId } = Router.query;
+    try {
+      this.props.onLoad("Creating new list...");
+      const result = await boardAPIs.addNewList(boardId, listName, {
+        headers: {
+          Authorization: `${getAuth().token}`,
+        },
+      });
+      this.props.updateBoard(result.data);
+      this.props.onDone();
+    } catch (e) {
+      console.log(e);
     }
+  };
 
-    addNewList = async (listName) => {
-        try {
-            this.props.onLoad("Creating new list...");
-            const result = await boardAPIs.addNewList(this.state.boardState._id, listName, {
-                headers: {
-                    'Authorization': `${getAuth().token}`
-                }
-            });
-            this.setState({boardState: result.data});
-            this.props.onDone();
-        }
-        catch (e) {
-            console.log(e);
-        }
-    };
-
-     renderList = () => {
-        return this.state.boardState.lists.map(list => {
-            return <List
-                    deleteList={this.deleteList}
-                     listInfo={list}
-                     key={list._id}
-                    handleOpenCardModal={this.handleOpenCardModal}
-            />
-        })
-    };
-
-     deleteList = async (listId) => {
-         const {boardId} = Router.query;
-         try {
-             const result = await listAPIs.deleteList(boardId,listId, {
-                 headers: {
-                     'Authorization': `${getAuth().token}`
-                 }
-             });
-             if(result.status === 200) {
-                 this.setState((state)=> {
-                     return {
-                         boardState: {...state.boardState, lists: state.boardState.lists.filter(l => l._id !== listId)}
-                     }
-                 })
-             }
-         }
-         catch (e) {
-             console.log(e);
-         }
-     };
-
-    render() {
-        const {boardState, openModal} = this.state;
+  renderList = () => {
+    const { boardDetail } = this.props;
+    return (
+      boardDetail.boardInfo &&
+      boardDetail.boardInfo.lists.map((list) => {
         return (
-            <div className={"board-detail-page"} style={{ backgroundColor: boardState.theme}}>
-                <Header/>
-                <BoardHeader boardDetail={boardState} boardId={boardState._id}/>
-                <div className="board-content">
-                    <div className="lists-wrapper" style={{display:"flex",alignItems: "start"}}>
-                        {this.renderList()}
-                        <AddList addNewList={this.addNewList}/>
-                    </div>
-                </div>
-                <SpinnerOverlay/>
-                <Modal onDismiss={this.handleCloseCardModal} isOpen={openModal}>
-                    <CardDetailModal handleCloseCardModal={this.handleCloseCardModal}/>
-                </Modal>
-            </div>
-        )
+          <List
+            deleteList={this.deleteList}
+            listInfo={list}
+            key={list._id}
+            handleOpenCardModal={this.handleOpenCardModal}
+          />
+        );
+      })
+    );
+  };
+
+  deleteList = async (listId) => {
+    const { boardId } = Router.query;
+    try {
+      const result = await listAPIs.deleteList(boardId, listId, {
+        headers: {
+          Authorization: `${getAuth().token}`,
+        },
+      });
+      this.props.updateBoard(result.data);
+    } catch (e) {
+      console.log(e);
     }
+  };
+
+  render() {
+    const { openModal } = this.state;
+    const boardState = this.props.boardDetail;
+    return (
+      <div
+        className={"board-detail-page"}
+        style={{
+          backgroundColor: boardState.boardInfo && boardState.boardInfo.theme,
+        }}
+      >
+        <Header />
+        {boardState && <BoardHeader boardDetail={boardState.boardInfo} />}
+        <div className="board-content">
+          <div
+            className="lists-wrapper"
+            style={{ display: "flex", alignItems: "start" }}
+          >
+            {this.renderList()}
+            <AddList addNewList={this.addNewList} />
+          </div>
+        </div>
+        <SpinnerOverlay />
+        <Modal onDismiss={this.handleCloseCardModal} isOpen={openModal}>
+          <CardDetailModal handleCloseCardModal={this.handleCloseCardModal} />
+        </Modal>
+      </div>
+    );
+  }
 }
 
-const mapStateToProps = state => {
-    return {
-        cardState: state.cardState
-    }
+const mapStateToProps = (state) => {
+  return {
+    cardState: state.cardState,
+    boardDetail: state.boardDetail,
+  };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onLoad: (label) => dispatch(onLoadAction(label)),
-        onDone: () => dispatch(onDoneAction()),
-        fetchCardAction: (cardId, token) => dispatch(fetchCardAction(cardId,token))
-    }
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onLoad: (label) => dispatch(onLoadAction(label)),
+    onDone: () => dispatch(onDoneAction()),
+    fetchCardAction: (cardId, token) =>
+      dispatch(fetchCardAction(cardId, token)),
+    updateBoard: (data) => dispatch(boardDetailAction.updateBoard(data)),
+  };
 };
 
-export default connect(mapStateToProps,mapDispatchToProps)(withCookies(BoardDetail));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withCookies(BoardDetail));

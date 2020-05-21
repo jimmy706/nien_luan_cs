@@ -7,7 +7,6 @@ import withRedux from "next-redux-wrapper";
 import {isAuth} from "../helpers/auth";
 import jwtDecode from 'jwt-decode';
 import {LOGIN_ACTION} from "../constants/action-types";
-import Router from "next/router";
 import { initializeIcons } from "@uifabric/icons";
 initializeIcons(undefined, { disableWarnings: true });
 import { CookiesProvider } from 'react-cookie';
