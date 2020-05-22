@@ -35,14 +35,20 @@ class BoardDetail extends Component {
       res.writeHead(302, { Location: "/?redirect=/looking-for" });
       res.end();
     }
-    store.dispatch(
-      boardDetailAction.fetchBoardDetail(boardId, {
-        headers: {
-          Authorization: token,
-        },
-      })
-    );
+    const result = await boardAPIs.getBoardDetail(boardId, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    store.dispatch(boardDetailAction.updateBoard(result.data));
     return {};
+  }
+
+  async componentDidMount() {
+    const { cookies } = this.props;
+    const { boardId } = Router.query;
+    const token = cookies.get("jwt");
+    this.props.fetchBoardDetail(boardId, token);
   }
 
   handleOpenCardModal = (cardId) => {
@@ -116,7 +122,9 @@ class BoardDetail extends Component {
         }}
       >
         <Header />
-        {boardState && <BoardHeader boardDetail={boardState.boardInfo} />}
+        {boardState.boardInfo && (
+          <BoardHeader boardDetail={boardState.boardInfo} />
+        )}
         <div className="board-content">
           <div
             className="lists-wrapper"
@@ -149,6 +157,8 @@ const mapDispatchToProps = (dispatch) => {
     fetchCardAction: (cardId, token) =>
       dispatch(fetchCardAction(cardId, token)),
     updateBoard: (data) => dispatch(boardDetailAction.updateBoard(data)),
+    fetchBoardDetail: (boardId, token) =>
+      dispatch(boardDetailAction.fetchBoardDetail(boardId, token)),
   };
 };
 

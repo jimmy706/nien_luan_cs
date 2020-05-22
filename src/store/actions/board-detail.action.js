@@ -21,11 +21,15 @@ function getBoardSuccess(data) {
   };
 }
 
-export function fetchBoardDetail(boardId, config) {
+export function fetchBoardDetail(boardId, token) {
   return async (dispatch) => {
     dispatch(getBoardPending());
     try {
-      const result = await boardAPIs.getBoardDetail(boardId, config);
+      const result = await boardAPIs.getBoardDetail(boardId, {
+        headers: {
+          Authorization: token,
+        },
+      });
       dispatch(getBoardSuccess(result.data));
     } catch (err) {
       dispatch(getBoardError(err));

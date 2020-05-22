@@ -65,6 +65,7 @@ function BoardHeader(props) {
           className={`search-result-item ${
             u.boards.includes(boardId) ? "disabled" : ""
           }`}
+          onClick={() => handleAddMember(u.email)}
         >
           <Persona
             imageUrl={u.avatar}
@@ -74,6 +75,16 @@ function BoardHeader(props) {
         </li>
       );
     });
+  }
+
+  async function handleAddMember(email) {
+    const addResult = await boardAPIs.addMember(
+      boardId,
+      email,
+      getAuth().token
+    );
+
+    console.log(addResult);
   }
 
   return (
