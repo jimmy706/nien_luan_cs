@@ -11,7 +11,7 @@
 @import "./components/text";
 @import "./components/header";
 @import "./components/boards-page";
-@import "./components/board-header";
+@import "../src/components/header/board-header";
 @import "./components/add-list";
 @import "./components/progress";
 @import "./components/list";
@@ -20,3 +20,4 @@
 @import "../src/components/Button/Button.style";
 @import "../src/components/CardDetailModal/CardDetailModal.style";
 @import "../src/components/DropdownMenu/DropdownMenu.style";
+@import "../src/components/MemberMenu/MemberMenu.style";

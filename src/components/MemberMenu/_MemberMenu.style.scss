@@ -1,0 +1,23 @@
+.member-menu {
+  width: 260px;
+  .action-list {
+    margin-top: 15px;
+    li {
+      display: block;
+    }
+  }
+  .message-wrapper {
+    white-space: normal;
+  }
+  .change-permisson-menu {
+    .member-type {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    .member-desc {
+      font-size: 0.8rem;
+      margin: 0;
+    }
+  }
+}

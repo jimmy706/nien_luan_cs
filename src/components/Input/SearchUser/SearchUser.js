@@ -15,7 +15,7 @@ function SearchUser(props) {
         onClear={props.onClear}
       />
       <div className="search-result">
-        <ul className="result-list">{props.searchResults}</ul>
+        <ul className="action-list">{props.searchResults}</ul>
       </div>
     </div>
   );

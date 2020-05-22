@@ -12,6 +12,9 @@ import DropdownMenu from "../DropdownMenu/DropdownMenu";
 import SearchUser from "../Input/SearchUser/SearchUser";
 import * as userAPIs from "API/user";
 import { useRouter } from "next/router";
+import { connect } from "react-redux";
+import { updateBoard } from "../../store/actions/board-detail.action";
+import MemberMenu from "../MemberMenu/MemberMenu";
 
 function BoardHeader(props) {
   const { boardDetail } = props;
@@ -20,15 +23,27 @@ function BoardHeader(props) {
   const router = useRouter();
   const { boardId } = router.query;
 
-  const facepilePersonas = boardDetail
-    ? boardDetail.members.map((mem) => {
-        return {
-          imageUrl: mem.avatar,
-          data: "",
-          personaName: mem.email,
-        };
-      })
-    : [];
+  function renderPersona() {
+    return boardDetail
+      ? boardDetail.members.map((member) => (
+          <DropdownMenu
+            key={member._id}
+            toggle={
+              <li>
+                <img
+                  className="member-avatar"
+                  src={member.avatar}
+                  title={member.email}
+                  alt={member.email}
+                />
+              </li>
+            }
+          >
+            <MemberMenu member={member} />
+          </DropdownMenu>
+        ))
+      : null;
+  }
 
   async function handleSubmit(e) {
     try {
@@ -83,8 +98,8 @@ function BoardHeader(props) {
       email,
       getAuth().token
     );
-
-    console.log(addResult);
+    props.updateBoard(addResult.data);
+    setUsers([]);
   }
 
   return (
@@ -104,10 +119,7 @@ function BoardHeader(props) {
           </div>
         </div>
         <div className="member-wrap wrap-box">
-          <Facepile
-            personas={facepilePersonas}
-            personaSize={PersonaSize.size24}
-          />
+          <ul className="member-list">{renderPersona()}</ul>
           <DropdownMenu
             toggle={
               <ActionButton
@@ -128,4 +140,10 @@ function BoardHeader(props) {
   );
 }
 
-export default BoardHeader;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateBoard: (data) => dispatch(updateBoard(data)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(BoardHeader);

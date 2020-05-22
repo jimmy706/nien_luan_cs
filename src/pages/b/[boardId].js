@@ -74,9 +74,10 @@ class BoardDetail extends Component {
         },
       });
       this.props.updateBoard(result.data);
-      this.props.onDone();
     } catch (e) {
       console.log(e);
+    } finally {
+      this.props.onDone();
     }
   };
 

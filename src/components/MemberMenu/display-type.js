@@ -1,0 +1,2 @@
+export const MAIN_CONTENT = "MAIN_CONTENT";
+export const CHANGE_PERMISSION = "CHANGE_PERMISSION";

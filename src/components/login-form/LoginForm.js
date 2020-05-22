@@ -1,9 +1,15 @@
 import React, { Component } from "react";
-import { TextField, PrimaryButton, Stack, MessageBar,MessageBarType } from "office-ui-fabric-react";
+import {
+  TextField,
+  PrimaryButton,
+  Stack,
+  MessageBar,
+  MessageBarType,
+} from "office-ui-fabric-react";
 import Link from "next/link";
-import {connect} from 'react-redux';
-import {loginAction, loginOAuthAction} from "../../store/actions/user.action";
-import {removeErrorAction} from "../../store/actions/error.action";
+import { connect } from "react-redux";
+import { loginAction, loginOAuthAction } from "../../store/actions/user.action";
+import { removeErrorAction } from "../../store/actions/error.action";
 
 class LoginForm extends Component {
   constructor(props) {
@@ -11,12 +17,12 @@ class LoginForm extends Component {
     this.state = {
       form: {
         login: "",
-        password: ""
+        password: "",
       },
     };
   }
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
     this.props.loginAction(this.state.form);
   };
@@ -29,42 +35,41 @@ class LoginForm extends Component {
       longtitle: true,
       theme: "dark",
       onsuccess: this.onSignIn,
-      onfailure: this.onLoginFail
+      onfailure: this.onLoginFail,
     };
 
-    if(window.gapi) {
+    if (window.gapi) {
       window.gapi.signin2.render("g-signin2", ggLoginOpts);
-    }
-    else {
-      window.onLoadCallback = function(){
+    } else {
+      window.onLoadCallback = function () {
         window.gapi.signin2.render("g-signin2", ggLoginOpts);
-      }
+      };
     }
   }
 
-  onLoginFail = err => {
+  onLoginFail = (err) => {
     console.log(err);
   };
 
-  handleOnChange = e => {
+  handleOnChange = (e) => {
     this.setState({
-      form: { ...this.state.form, [e.target.name]: e.target.value }
+      form: { ...this.state.form, [e.target.name]: e.target.value },
     });
   };
 
-  onSignIn = googleUser => {
+  onSignIn = (googleUser) => {
     const profile = googleUser.getBasicProfile();
     const ggProfile = {
       name: profile.getName(),
       email: profile.getEmail(),
-      avatar: profile.getImageUrl()
+      avatar: profile.getImageUrl(),
     };
     this.props.loginOAuthAction(ggProfile);
   };
 
   renderErrors = () => {
     let errorMessages = [];
-    for(let e in this.props.errors) {
+    for (let e in this.props.errors) {
       errorMessages.push(this.props.errors[e]);
     }
     return errorMessages;
@@ -74,10 +79,15 @@ class LoginForm extends Component {
     return (
       <form className="login-form" onSubmit={this.handleSubmit}>
         {Object.keys(this.props.errors).length ? (
-            <MessageBar  messageBarType={MessageBarType.error} isMultiline={false}  dismissButtonAriaLabel="Close" onDismiss={this.props.removeErrorAction}>
-              {this.renderErrors()}
-            </MessageBar>
-        ): null}
+          <MessageBar
+            messageBarType={MessageBarType.error}
+            isMultiline={false}
+            dismissButtonAriaLabel="Close"
+            onDismiss={this.props.removeErrorAction}
+          >
+            {this.renderErrors()}
+          </MessageBar>
+        ) : null}
         <Stack tokens={{ childrenGap: 10 }}>
           <TextField
             label="Username or email"
@@ -133,14 +143,12 @@ class LoginForm extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    errors: state.errors
-  }
+    errors: state.errors,
+  };
 };
 
-
-
-export default connect(mapStateToProps,{
+export default connect(mapStateToProps, {
   loginAction,
   loginOAuthAction,
-  removeErrorAction
+  removeErrorAction,
 })(LoginForm);
