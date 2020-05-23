@@ -36,17 +36,6 @@ class Boards extends Component {
     };
   }
 
-  renderBoards = () => {
-    const { boards } = this.props;
-    return boards.map((b) => {
-      return (
-        <div className="item" key={b._id}>
-          <BoardCard board={b} />
-        </div>
-      );
-    });
-  };
-
   async componentDidMount() {
     if (!isAuth()) {
       Router.push("/");
@@ -87,6 +76,7 @@ class Boards extends Component {
 
   render() {
     const { hideDialog } = this.state;
+    const { boards, user } = this.props;
     return (
       <div id="boards-page">
         <SpinnerOverlay />
@@ -115,23 +105,50 @@ class Boards extends Component {
         </Dialog>
         <div className={"boards-container"}>
           <div className="container">
-            <h2>
-              <Icon iconName={"FabricUserFolder"} />
-              &nbsp; Personal boards:
-            </h2>
-            <div className="board-grid">
-              {this.renderBoards()}
-              <div className="item">
-                <div
-                  className="board-card create-card"
-                  title="Create new board"
-                  onClick={this.showDialog}
-                >
-                  <a href="#" className="card-link">
-                    <Icon iconName={"CirclePlus"} />
-                    &nbsp; Create new board
-                  </a>
+            <div className="section-wrapper">
+              <h2>
+                <Icon iconName={"FabricUserFolder"} />
+                &nbsp; Personal boards:
+              </h2>
+              <div className="board-grid">
+                {boards.map((b) => {
+                  if (b.owner === user.email) {
+                    return (
+                      <div className="item" key={b._id}>
+                        <BoardCard board={b} />
+                      </div>
+                    );
+                  }
+                })}
+                <div className="item">
+                  <div
+                    className="board-card create-card"
+                    title="Create new board"
+                    onClick={this.showDialog}
+                  >
+                    <a href="#" className="card-link">
+                      <Icon iconName={"CirclePlus"} />
+                      &nbsp; Create new board
+                    </a>
+                  </div>
                 </div>
+              </div>
+            </div>
+            <div className="section-wrapper">
+              <h2>
+                <Icon iconName="TextDocumentShared" />
+                &nbsp; Shared with me:
+              </h2>
+              <div className="board-grid">
+                {boards.map((b) => {
+                  if (b.owner !== user.email) {
+                    return (
+                      <div className="item" key={b._id}>
+                        <BoardCard board={b} />
+                      </div>
+                    );
+                  }
+                })}
               </div>
             </div>
           </div>

@@ -1,8 +1,12 @@
 #boards-page {
   .board-grid {
     display: grid;
-    grid-template-columns: repeat(5,1fr);
+    grid-template-columns: repeat(5, 1fr);
     grid-gap: 25px;
+  }
+  .section-wrapper {
+    margin-bottom: 40px;
+    padding: 20px 0;
   }
 }
 
@@ -18,7 +22,8 @@
       text-decoration: underline;
     }
   }
-  .card-link,.board-name {
+  .card-link,
+  .board-name {
     display: block;
     padding: 20px;
     width: 100%;
@@ -26,7 +31,7 @@
     box-sizing: border-box;
     border-radius: 10px;
     overflow: hidden;
-    transition: all .4s ease;
+    transition: all 0.4s ease;
   }
   .board-name {
     color: #fff;
@@ -40,26 +45,29 @@
       text-overflow: ellipsis;
     }
   }
-  .dropdown-container{
+  .dropdown-container {
     position: absolute;
     top: 0;
     right: 0;
     background-color: transparent;
-    .ms-Button, .ms-Button--commandBar, .ms-Button--hasMenu, .ms-CommandBar-overflowButton{
+    .ms-Button,
+    .ms-Button--commandBar,
+    .ms-Button--hasMenu,
+    .ms-CommandBar-overflowButton {
       background: transparent;
       padding: 0;
       color: #fff;
     }
-    .ms-FocusZone  {
+    .ms-FocusZone {
       padding: 0;
       background: transparent;
     }
-    .ms-Button-menuIcon{
+    .ms-Button-menuIcon {
       color: #fff;
     }
   }
   &.create-card {
-    .card-link{
+    .card-link {
       display: flex;
       justify-content: center;
       align-items: center;
