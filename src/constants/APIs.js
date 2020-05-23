@@ -13,6 +13,8 @@ export const ADD_NEW_LIST_URL = `${BASE_URL}/boards/add-list/`;
 export const CHANGE_LIST_NAME_URL = `${BASE_URL}/boards/change-list-name`;
 export const DELETE_LIST_URL = `${BASE_URL}/boards/delete-list`;
 export const ADD_MEMBER_TO_BOARD_URL = `${BASE_URL}/boards/add-member/`;
+export const REMOVE_MEMBER_FROM_BOARD_URL = `${BASE_URL}/boards/remove-member/`;
+export const CHANGE_MEMBER_ROLE_URL = `${BASE_URL}/boards/change-role/`;
 
 export const ADD_CARD = `${BASE_URL}/cards/create/`;
 export const LIST_CARD = `${BASE_URL}/cards/`;

@@ -17,11 +17,19 @@ import { updateBoard } from "../../store/actions/board-detail.action";
 import MemberMenu from "../MemberMenu/MemberMenu";
 
 function BoardHeader(props) {
-  const { boardDetail } = props;
+  const { boardDetail, user } = props;
   const [users, setUsers] = useState([]);
   const [isPending, setIsPending] = useState(false);
   const router = useRouter();
   const { boardId } = router.query;
+
+  function getCurrentUserRole() {
+    for (let member of boardDetail.members) {
+      if (member.email === user.email) {
+        return member.role;
+      }
+    }
+  }
 
   function renderPersona() {
     return boardDetail
@@ -39,7 +47,10 @@ function BoardHeader(props) {
               </li>
             }
           >
-            <MemberMenu member={member} />
+            <MemberMenu
+              member={member}
+              currentUserRole={getCurrentUserRole()}
+            />
           </DropdownMenu>
         ))
       : null;
@@ -140,10 +151,16 @@ function BoardHeader(props) {
   );
 }
 
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     updateBoard: (data) => dispatch(updateBoard(data)),
   };
 };
 
-export default connect(null, mapDispatchToProps)(BoardHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(BoardHeader);

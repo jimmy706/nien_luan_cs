@@ -32,3 +32,27 @@ export function addMember(boardId, email, token) {
     }
   );
 }
+
+export function removeMember(boardId, email, token) {
+  return axios.put(
+    URLs.REMOVE_MEMBER_FROM_BOARD_URL + boardId,
+    { email },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+}
+
+export function changeMemberRole(boardId, email, role, token) {
+  return axios.put(
+    URLs.CHANGE_MEMBER_ROLE_URL + boardId,
+    { email, role },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+}

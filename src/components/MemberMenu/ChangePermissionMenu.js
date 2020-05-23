@@ -3,10 +3,32 @@ import { Icon } from "office-ui-fabric-react";
 import { MAIN_CONTENT } from "./display-type";
 import classNames from "classnames";
 import { connect } from "react-redux";
+import * as boardAPI from "../../API/board.api";
+import { updateBoard } from "../../store/actions/board-detail.action";
+import { useCookies } from "react-cookie";
 
 function ChangePermissonMenu(props) {
-  const { member, setDisplay, boardDetail } = props;
+  const [cookies] = useCookies();
+  const { member, setDisplay, boardDetail, user } = props;
   const { boardInfo } = boardDetail;
+
+  async function handleChangePermission(role) {
+    const token = cookies.jwt;
+    try {
+      const result = await boardAPI.changeMemberRole(
+        boardInfo._id,
+        member.email,
+        role,
+        token
+      );
+      if (result.status === 200) {
+        props.updateBoard(result.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   return (
     <div className="change-permisson-menu">
       <div className="menu-header">
@@ -18,7 +40,10 @@ function ChangePermissonMenu(props) {
       </div>
       <div className="menu-content">
         <ul className="action-list">
-          <li className={classNames({ disabled: member.role === "ADMIN" })}>
+          <li
+            onClick={() => handleChangePermission("ADMIN")}
+            className={classNames({ disabled: member.role === "ADMIN" })}
+          >
             <p className="member-type">
               Admin {member.role === "ADMIN" && <Icon iconName="CheckMark" />}
             </p>
@@ -28,10 +53,10 @@ function ChangePermissonMenu(props) {
             </p>
           </li>
           <li
+            onClick={() => handleChangePermission("MEMBER")}
             className={classNames({
               disabled:
-                member.role === "MEMBER" ||
-                (boardInfo && boardInfo.owner === member.email),
+                member.role === "MEMBER" || boardInfo.owner === member.email,
             })}
           >
             <p className="member-type">
@@ -42,12 +67,12 @@ function ChangePermissonMenu(props) {
             </p>
           </li>
         </ul>
-        {boardInfo && boardInfo.owner === member.email && (
+        {boardInfo.owner === user.email && member.email === user.email && (
           <div className="message-wrapper">
             <hr className="line" />
             <p>
-              You can't change your role to Member you're the owner of this
-              Board
+              You can't change your role to Member because you're the owner of
+              this Board
             </p>
           </div>
         )}
@@ -59,7 +84,17 @@ function ChangePermissonMenu(props) {
 const mapStateToProps = (state) => {
   return {
     boardDetail: state.boardDetail,
+    user: state.user,
   };
 };
 
-export default connect(mapStateToProps, null)(ChangePermissonMenu);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateBoard: (data) => dispatch(updateBoard(data)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ChangePermissonMenu);
