@@ -22,4 +22,12 @@
     right: 0;
     font-size: 12px;
   }
+  .card-content-icons {
+    display: flex;
+    margin-top: 10px;
+    i {
+      font-size: 0.9rem;
+      margin-right: 10px;
+    }
+  }
 }

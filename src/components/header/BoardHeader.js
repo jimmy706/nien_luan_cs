@@ -16,6 +16,7 @@ import { connect } from "react-redux";
 import { updateBoard } from "../../store/actions/board-detail.action";
 import MemberMenu from "../MemberMenu/MemberMenu";
 import { checkCurrentIsAdmin } from "../../helpers/auth";
+import CustomButton from "../Button/Button";
 
 function BoardHeader(props) {
   const { boardDetail, user } = props;
@@ -117,38 +118,54 @@ function BoardHeader(props) {
   return (
     <nav className="board-header">
       <div className="container-fluid">
-        <div className="board-name-wrapp wrap-box">
-          <div className="board-name">
-            <input
-              defaultValue={boardDetail && boardDetail.boardName}
-              type="text"
-              onBlur={handleSubmit}
-              disabled={
-                checkCurrentIsAdmin(boardDetail, user) ? "" : "disabled"
-              }
-            />
-            <span className="line" />
+        <div className="left-content">
+          <div className="board-name-wrapp wrap-box">
+            <div className="board-name">
+              <input
+                defaultValue={boardDetail && boardDetail.boardName}
+                type="text"
+                onBlur={handleSubmit}
+                disabled={
+                  checkCurrentIsAdmin(boardDetail, user) ? "" : "disabled"
+                }
+              />
+              <span className="line" />
+            </div>
+            <div className="add-to-fav icon-wrapper" title="Add to favorite">
+              <Icon iconName="FavoriteStar" />
+            </div>
           </div>
-          <div className="add-to-fav icon-wrapper" title="Add to favorite">
-            <Icon iconName="FavoriteStar" />
+          <div className="member-wrap wrap-box">
+            <ul className="member-list">{renderPersona()}</ul>
+            <DropdownMenu
+              toggle={
+                <ActionButton
+                  text="Invite"
+                  iconProps={{ iconName: "AddFriend" }}
+                />
+              }
+            >
+              <SearchUser
+                onSearch={handleSearch}
+                onClear={() => setUsers([])}
+                searchResults={renderSearchResult()}
+              />
+            </DropdownMenu>
           </div>
         </div>
-        <div className="member-wrap wrap-box">
-          <ul className="member-list">{renderPersona()}</ul>
-          <DropdownMenu
-            toggle={
-              <ActionButton
-                text="Invite"
-                iconProps={{ iconName: "AddFriend" }}
-              />
-            }
-          >
-            <SearchUser
-              onSearch={handleSearch}
-              onClear={() => setUsers([])}
-              searchResults={renderSearchResult()}
-            />
-          </DropdownMenu>
+
+        <div className="right-content">
+          <div>
+            <CustomButton onClick={() => props.handleOpenOpenPanel()}>
+              <Icon
+                iconName="More"
+                styles={{
+                  root: { verticalAlign: "middle", marginRight: "5px" },
+                }}
+              />{" "}
+              Show Menu
+            </CustomButton>
+          </div>
         </div>
       </div>
     </nav>

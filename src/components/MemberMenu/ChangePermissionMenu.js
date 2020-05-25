@@ -35,7 +35,7 @@ function ChangePermissonMenu(props) {
         <span className="toggle-back" onClick={() => setDisplay(MAIN_CONTENT)}>
           <Icon iconName="ChevronLeft" />
         </span>
-        <span className="menu-title">Change Permissions</span>
+        <span className="menu-title title">Change Permissions</span>
         <hr className="line" />
       </div>
       <div className="menu-content">

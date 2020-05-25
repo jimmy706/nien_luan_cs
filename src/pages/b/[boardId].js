@@ -16,14 +16,16 @@ import SpinnerOverlay from "components/Progress/SpinnerOverlay";
 import { onLoadAction, onDoneAction } from "store/actions/progress.action";
 import * as listAPIs from "../../API/list.api";
 import cookies from "next-cookies";
-import { Modal } from "office-ui-fabric-react";
+import { Modal, Panel } from "office-ui-fabric-react";
 import CardDetailModal from "../../components/CardDetailModal/CardDetailModal";
+import BoardPanelMainContent from "../../components/BoardPanelContents/MainContent";
 
 class BoardDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
       openModal: false,
+      openPanel: false,
     };
   }
 
@@ -112,6 +114,14 @@ class BoardDetail extends Component {
     }
   };
 
+  handleOpenOpenPanel = () => {
+    this.setState({ openPanel: true });
+  };
+
+  handleClosePanel = () => {
+    this.setState({ openPanel: false });
+  };
+
   render() {
     const { openModal } = this.state;
     const boardState = this.props.boardDetail;
@@ -124,7 +134,10 @@ class BoardDetail extends Component {
       >
         <Header />
         {boardState.boardInfo && (
-          <BoardHeader boardDetail={boardState.boardInfo} />
+          <BoardHeader
+            handleOpenOpenPanel={this.handleOpenOpenPanel}
+            boardDetail={boardState.boardInfo}
+          />
         )}
         <div className="board-content">
           <div
@@ -139,6 +152,14 @@ class BoardDetail extends Component {
         <Modal onDismiss={this.handleCloseCardModal} isOpen={openModal}>
           <CardDetailModal handleCloseCardModal={this.handleCloseCardModal} />
         </Modal>
+        <Panel
+          isOpen={this.state.openPanel}
+          onDismiss={this.handleClosePanel}
+          isLightDismiss={true}
+          closeButtonAriaLabel="Close panel"
+        >
+          <BoardPanelMainContent />
+        </Panel>
       </div>
     );
   }

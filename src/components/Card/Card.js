@@ -1,16 +1,17 @@
 import React from "react";
-import { IconButton } from "office-ui-fabric-react";
+import { IconButton, Icon } from "office-ui-fabric-react";
 import { connect } from "react-redux";
 import { checkCurrentIsAdmin } from "../../helpers/auth";
 import * as cardAPIs from "../../API/card.api";
 import { useCookies } from "react-cookie";
 
 function Card(props) {
-  const { cardTitle, handleOpenCardModal } = props.card;
+  const { card } = props;
+  const { cardTitle, description } = card;
   const { boardDetail, user } = props;
   const [cookies] = useCookies();
   function handleOpenModal() {
-    props.handleOpenCardModal(props.card._id);
+    props.handleOpenCardModal(card._id);
   }
 
   async function handleDeleteCard() {
@@ -30,7 +31,11 @@ function Card(props) {
       <div className="card-content" onClick={handleOpenModal}>
         <div className="card-labels"></div>
         <div className="card-name">{cardTitle}</div>
-        <div className="card-content-icons"></div>
+        <div className="card-content-icons">
+          {description && (
+            <Icon iconName="TextDocument" title="This card has description" />
+          )}
+        </div>
       </div>
       <span className="delete-button" title="Remove this card">
         <IconButton

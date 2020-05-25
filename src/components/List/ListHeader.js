@@ -63,7 +63,7 @@ function ListHeader(props) {
       </span>
       <div className={`hidden-menu ${openHiddenMenu ? "open" : ""}`}>
         <div className="menu-header">
-          <span>List Action</span>
+          <span className="title">List Action</span>
           <span
             className="toggle-close"
             onClick={() => setOpenHiddenMenu(false)}

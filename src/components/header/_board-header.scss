@@ -7,7 +7,11 @@
   margin-bottom: 28px;
   z-index: 40;
   & > .container-fluid {
-    justify-content: flex-start;
+    justify-content: space-between;
+  }
+  .left-content,
+  .right-content {
+    display: flex;
   }
   .wrap-box {
     padding: 0 10px;
