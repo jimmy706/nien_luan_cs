@@ -4,11 +4,22 @@ import { Spinner, SpinnerSize, IconButton } from "office-ui-fabric-react";
 import CardLabels from "./CardLabels";
 import CardDescription from "./CardDescription";
 import { Icon } from "office-ui-fabric-react";
+import * as cardAPIs from "../../API/card.api";
+import { useCookies } from "react-cookie";
 
 function CardDetailModal(props) {
   const { cardState } = props;
   const { cardDetail, isPending } = cardState;
-  const [allowChangeTitle, setAllowChangeTitle] = useState(false);
+  const [cookies] = useCookies();
+
+  async function handleChangeCardTitle(e) {
+    const value = e.target.value;
+    const result = await cardAPIs.changeCardTitle(
+      cardDetail._id,
+      value,
+      cookies.jwt
+    );
+  }
 
   return (
     <div className="card-detail">
@@ -16,11 +27,7 @@ function CardDetailModal(props) {
         <Spinner label="Pending card..." size={SpinnerSize.large} />
       ) : (
         <div className="content">
-          <div
-            className={`window-header ${
-              allowChangeTitle ? "input-active" : ""
-            }`}
-          >
+          <div className={`window-header`}>
             <span className="toggle-close">
               <IconButton
                 onClick={props.handleCloseCardModal}
@@ -29,7 +36,8 @@ function CardDetailModal(props) {
             </span>
             <input
               className={`card-name form-control`}
-              value={cardDetail.cardTitle}
+              defaultValue={cardDetail.cardTitle}
+              onBlur={handleChangeCardTitle}
             />
           </div>
           <div className="main-content">
@@ -64,6 +72,7 @@ function CardDetailModal(props) {
 const mapStateToProps = (state) => {
   return {
     cardState: state.cardState,
+    boardDetail: state.boardDetail,
   };
 };
 

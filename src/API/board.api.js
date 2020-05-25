@@ -56,3 +56,16 @@ export function changeMemberRole(boardId, email, role, token) {
     }
   );
 }
+
+export function changeListName(data, token) {
+  const { boardId, listId, newName } = data;
+  return axios.put(
+    URLs.CHANGE_LIST_NAME_URL,
+    { boardId, listId, newName },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+}

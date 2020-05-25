@@ -1,10 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Icon } from "office-ui-fabric-react";
+import { connect } from "react-redux";
+import { updateBoard } from "../../store/actions/board-detail.action";
+import * as boardAPIs from "../../API/board.api";
+import { useCookies } from "react-cookie";
 
 function ListHeader(props) {
   const inputNameRef = useRef(null);
   const [openInput, setOpenInput] = useState(false);
   const [openHiddenMenu, setOpenHiddenMenu] = useState(false);
+  const [cookies] = useCookies();
 
   function handleOpenInput() {
     setOpenInput(true);
@@ -16,8 +21,16 @@ function ListHeader(props) {
     }
   }, [openInput]);
 
-  function handleChangeListName(e) {
-    props.setListName(e.target.value);
+  async function handleChangeListName(e) {
+    const value = e.target.value;
+    const data = {
+      listId: props.listInfo._id,
+      newName: value,
+      boardId: props.boardDetail.boardInfo._id,
+    };
+    const result = await boardAPIs.changeListName(data, cookies.jwt);
+    props.updateBoard(result.data);
+    props.setListName(value);
     setOpenInput(false);
   }
 
@@ -81,4 +94,10 @@ ListHeader.defaultProps = {
   listName: "",
 };
 
-export default ListHeader;
+const mapStateToProps = (state) => {
+  return {
+    boardDetail: state.boardDetail,
+  };
+};
+
+export default connect(mapStateToProps, { updateBoard })(ListHeader);

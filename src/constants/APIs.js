@@ -18,7 +18,10 @@ export const CHANGE_MEMBER_ROLE_URL = `${BASE_URL}/boards/change-role/`;
 
 export const ADD_CARD = `${BASE_URL}/cards/create/`;
 export const LIST_CARD = `${BASE_URL}/cards/`;
+export const DELETE_CARD = `${BASE_URL}/cards/delete/`;
 export const GET_CARD_DETAIL = `${BASE_URL}/cards/detail/`;
 export const UPDATE_CARD_DESC = `${BASE_URL}/cards/update/desc/`;
+export const UPDATE_CARD_TITLE = `${BASE_URL}/cards/update/title/`;
+export const UPDATE_CARD_DUE_DATE = `${BASE_URL}/cards/update/due-date/`;
 
 export const SEARCH_USER = `${BASE_URL}/user/mail`;

@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { connect } from "react-redux";
 import { updateBoard } from "../../store/actions/board-detail.action";
 import MemberMenu from "../MemberMenu/MemberMenu";
+import { checkCurrentIsAdmin } from "../../helpers/auth";
 
 function BoardHeader(props) {
   const { boardDetail, user } = props;
@@ -122,6 +123,9 @@ function BoardHeader(props) {
               defaultValue={boardDetail && boardDetail.boardName}
               type="text"
               onBlur={handleSubmit}
+              disabled={
+                checkCurrentIsAdmin(boardDetail, user) ? "" : "disabled"
+              }
             />
             <span className="line" />
           </div>

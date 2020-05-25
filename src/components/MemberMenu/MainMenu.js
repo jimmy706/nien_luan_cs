@@ -48,7 +48,9 @@ function MainMenu(props) {
             className={classNames({
               disabled:
                 currentUserRole === "MEMBER" ||
-                (boardInfo.owner === user.email && user.email === member.email),
+                (boardInfo.owner === user.email &&
+                  user.email === member.email) ||
+                boardInfo.owner === member.email,
             })}
           >
             Remove from Board...
