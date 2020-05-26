@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import MainMenu from "./MainMenu";
 import { MAIN_MENU, CHANGE_THEME, LABELS, MEMBERS } from "./display-type";
+import LabelMenu from "./LabelsMenu";
 
 const menuList = [
   {
@@ -21,12 +22,14 @@ const menuList = [
 ];
 
 function BoardPanelMainContent() {
-  const [display, setDispay] = useState(MAIN_MENU);
+  const [display, setDisplay] = useState(MAIN_MENU);
 
   function renderDisplay() {
     switch (display) {
+      case LABELS:
+        return <LabelMenu setDisplay={setDisplay} />;
       default:
-        return <MainMenu setDispay={setDispay} menuList={menuList} />;
+        return <MainMenu setDisplay={setDisplay} menuList={menuList} />;
     }
   }
 

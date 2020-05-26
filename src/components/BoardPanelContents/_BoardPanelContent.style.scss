@@ -1,0 +1,17 @@
+.board-panel-content {
+  .label-item {
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: #fff;
+    font-weight: 500;
+    position: relative;
+    padding: 5px 15px;
+    .toggle-edit {
+      float: right;
+      display: block;
+      text-align: center;
+      cursor: pointer;
+      background-color: transparent;
+    }
+  }
+}

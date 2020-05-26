@@ -2,12 +2,12 @@ import React from "react";
 import { Icon } from "office-ui-fabric-react";
 
 function MainMenu(props) {
-  const { menuList, setDispay } = props;
+  const { menuList, setDisplay } = props;
 
   function renderChoiceList() {
     return menuList.map((menu, index) => {
       return (
-        <li key={`menu-item-${index}`} onClick={() => setDispay(menu.display)}>
+        <li key={`menu-item-${index}`} onClick={() => setDisplay(menu.display)}>
           <Icon
             iconName={menu.icon}
             styles={{

@@ -1,0 +1,38 @@
+.label-edit-board {
+  .color-wrapper {
+    input[type="radio"] {
+      display: none;
+    }
+    input[type="radio"]:checked ~ label::before {
+      display: block;
+    }
+    label {
+      display: block;
+      position: relative;
+      width: 30px;
+      height: 30px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      &::before {
+        content: "✔";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        color: #eee;
+        display: none;
+      }
+    }
+  }
+  .color-choice-group {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .button-wrapper {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+}

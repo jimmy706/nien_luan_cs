@@ -69,3 +69,11 @@ export function changeListName(data, token) {
     }
   );
 }
+
+export function addLabel(boardId, data, token) {
+  return axios.post(URLs.ADD_LABEL_TO_BOARD_URL + boardId, data, {
+    headers: {
+      Authorization: token,
+    },
+  });
+}
