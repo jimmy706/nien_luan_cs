@@ -8,13 +8,20 @@ import {
 import labelColors from "../../constants/label-colors";
 
 function LabelEditBoard(props) {
-  const { boardType, onCreate } = props;
+  const { boardType, onCreate, labelInfo, onUpdate } = props;
+
+  function checkedColor(color) {
+    if (labelInfo) {
+      return color === labelInfo.color;
+    }
+    return color === "#61bd50";
+  }
 
   function renderLabelColors() {
     return labelColors.map((color) => (
       <div key={color} className="color-wrapper">
         <input
-          defaultChecked={color === "#61bd50"}
+          defaultChecked={checkedColor(color)}
           type="radio"
           name="color"
           id={color}
@@ -31,6 +38,8 @@ function LabelEditBoard(props) {
     const color = e.target["color"].value;
     if (boardType === "create") {
       onCreate({ name, color });
+    } else {
+      onUpdate({ name, color });
     }
   }
 
@@ -43,6 +52,7 @@ function LabelEditBoard(props) {
         name="name"
         autoFocus
         required
+        defaultValue={labelInfo?.labelName}
       />
       <div className="form-group">
         <Label>Select a color</Label>
@@ -54,7 +64,11 @@ function LabelEditBoard(props) {
         ) : (
           <>
             <PrimaryButton text="Save" type="submit" />
-            <DefaultButton type="button" text="Delete" />
+            <DefaultButton
+              onClick={() => props.onDelete(labelInfo?._id)}
+              type="button"
+              text="Delete"
+            />
           </>
         )}
       </div>
@@ -68,5 +82,6 @@ LabelEditBoard.defaultProps = {
   boardType: "create",
   onCreate: ({ name, color }) => {},
   onUpdate: ({ name, color }) => {},
+  onDelete: (labelId) => {},
   labelInfo: null,
 };

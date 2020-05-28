@@ -3,9 +3,9 @@ import { connect } from "react-redux";
 import { Spinner, SpinnerSize, IconButton } from "office-ui-fabric-react";
 import CardLabels from "./CardLabels";
 import CardDescription from "./CardDescription";
-import { Icon } from "office-ui-fabric-react";
 import * as cardAPIs from "../../API/card.api";
 import { useCookies } from "react-cookie";
+import CardSidebar from "./CardSidebar";
 
 function CardDetailModal(props) {
   const { cardState } = props;
@@ -45,23 +45,7 @@ function CardDetailModal(props) {
               <CardLabels />
               <CardDescription cardDetail={cardState.cardDetail} />
             </div>
-            <div className="card-sidebar">
-              <h2 className="section-title">CARD ACTIONS</h2>
-              <ul className="action-list">
-                <li>
-                  <Icon iconName="Contact" /> Members
-                </li>
-                <li>
-                  <Icon iconName="Label" /> Labels
-                </li>
-                <li>
-                  <Icon iconName="CheckList" /> Checklist
-                </li>
-                <li>
-                  <Icon iconName="DateTime" /> Due Date
-                </li>
-              </ul>
-            </div>
+            <CardSidebar />
           </div>
         </div>
       )}

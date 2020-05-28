@@ -16,6 +16,8 @@ export const ADD_MEMBER_TO_BOARD_URL = `${BASE_URL}/boards/add-member/`;
 export const REMOVE_MEMBER_FROM_BOARD_URL = `${BASE_URL}/boards/remove-member/`;
 export const CHANGE_MEMBER_ROLE_URL = `${BASE_URL}/boards/change-role/`;
 export const ADD_LABEL_TO_BOARD_URL = `${BASE_URL}/boards/add-label/`;
+export const REMOVE_LABEL_URL = `${BASE_URL}/boards/remove-label/`;
+export const UPDATE_LABEL_URL = `${BASE_URL}/boards/update-label/`;
 
 export const ADD_CARD = `${BASE_URL}/cards/create/`;
 export const LIST_CARD = `${BASE_URL}/cards/`;

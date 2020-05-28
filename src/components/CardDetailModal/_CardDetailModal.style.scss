@@ -22,7 +22,6 @@
     .action-list {
       li {
         background-color: #f8f8f8;
-        text-transform: capitalize;
         margin-bottom: 15px;
         i {
           margin-right: 5px;
@@ -119,5 +118,23 @@
     &:hover {
       text-decoration: underline;
     }
+  }
+}
+
+.card-sidebar {
+  .action-item {
+    padding: 0;
+    cursor: unset;
+  }
+  .item-content {
+    display: block;
+    width: 100%;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  .label-item {
+    color: #fff;
   }
 }

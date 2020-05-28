@@ -12,6 +12,7 @@ function LabelMenu(props) {
   const [openEditLabel, setOpenEditLabel] = useState(false);
   const [labelBoardType, setLabelBoardType] = useState("create");
   const [cookies] = useCookies();
+  const [labelInfo, setLabelInfo] = useState(null);
 
   async function handleCreateNewLabel({ name, color }) {
     const token = cookies.jwt;
@@ -24,10 +25,52 @@ function LabelMenu(props) {
       );
       if (result.status === 200) {
         setOpenEditLabel(false);
-        updateBoard(result.data);
+        props.updateBoard(result.data);
       }
     } catch (err) {
       console.log(err);
+    }
+  }
+
+  function handleEditLabel(label) {
+    setLabelInfo(label);
+    setLabelBoardType("update");
+    setOpenEditLabel(true);
+  }
+
+  function handleOpenCreateBoard() {
+    setLabelInfo(null);
+    setOpenEditLabel(true);
+    setLabelBoardType("create");
+  }
+
+  async function handleUpdateLabel({ name, color }) {
+    const labelId = labelInfo?._id;
+    const token = cookies.jwt;
+    const sendData = { labelId, labelName: name, color };
+    const boardId = boardInfo?._id;
+    try {
+      const result = await boardAPIs.updateLabel(boardId, sendData, token);
+      if (result.status === 200) {
+        setOpenEditLabel(false);
+        props.updateBoard(result.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async function handleDeleteLabel(labelId) {
+    const token = cookies.jwt;
+    const boardId = boardInfo?._id;
+    try {
+      const result = await boardAPIs.removeLabel(boardId, labelId, token);
+      if (result.status === 200) {
+        setOpenEditLabel(false);
+        props.updateBoard(result.data);
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -38,6 +81,7 @@ function LabelMenu(props) {
             style={{ background: label.color }}
             key={label._id}
             className="label-item"
+            onClick={() => handleEditLabel(label)}
           >
             <span>{label.labelName}</span>
             <span className="toggle-edit">
@@ -67,6 +111,9 @@ function LabelMenu(props) {
           <LabelEditBoard
             onCreate={handleCreateNewLabel}
             boardType={labelBoardType}
+            labelInfo={labelInfo}
+            onUpdate={handleUpdateLabel}
+            onDelete={handleDeleteLabel}
           />
         </div>
       ) : (
@@ -82,10 +129,7 @@ function LabelMenu(props) {
             {renderLabels()}
             <li
               className="action-box text-center"
-              onClick={() => {
-                setOpenEditLabel(true);
-                setLabelBoardType("create");
-              }}
+              onClick={handleOpenCreateBoard}
             >
               Create new label
             </li>

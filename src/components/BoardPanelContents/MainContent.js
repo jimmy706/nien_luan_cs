@@ -10,11 +10,6 @@ const menuList = [
     icon: "ArrangeSendBackward",
   },
   {
-    title: "Members",
-    display: MEMBERS,
-    icon: "Teamwork",
-  },
-  {
     title: "Labels",
     display: LABELS,
     icon: "Tag",

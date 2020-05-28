@@ -77,3 +77,23 @@ export function addLabel(boardId, data, token) {
     },
   });
 }
+
+export function updateLabel(boardId, data, token) {
+  return axios.put(URLs.UPDATE_LABEL_URL + boardId, data, {
+    headers: {
+      Authorization: token,
+    },
+  });
+}
+
+export function removeLabel(boardId, labelId, token) {
+  return axios.put(
+    URLs.REMOVE_LABEL_URL + boardId,
+    { labelId },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+}
