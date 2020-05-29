@@ -3,6 +3,7 @@ import { Icon } from "office-ui-fabric-react";
 import HiddenMenu from "../HiddenMenu/HiddenMenu";
 import LabelList from "../CardSidebarComponents/LabelList";
 import MemberList from "../CardSidebarComponents/MemberList";
+import DueDatePicker from "../CardSidebarComponents/DueDatePicker";
 
 function CardSidebar(props) {
   return (
@@ -34,13 +35,20 @@ function CardSidebar(props) {
           </HiddenMenu>
         </li>
         <li className="action-item">
-          <span className="item-content">
-            <Icon iconName="CheckList" /> Checklist
-          </span>
+          <HiddenMenu
+            toggle={
+              <span className="item-content">
+                <Icon iconName="DateTime" /> Due Date
+              </span>
+            }
+            title="Due date"
+          >
+            <DueDatePicker />
+          </HiddenMenu>
         </li>
         <li className="action-item">
           <span className="item-content">
-            <Icon iconName="DateTime" /> Due Date
+            <Icon iconName="CheckList" /> Checklist
           </span>
         </li>
       </ul>

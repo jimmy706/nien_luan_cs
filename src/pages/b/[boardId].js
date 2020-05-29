@@ -61,6 +61,10 @@ class BoardDetail extends Component {
   };
 
   handleCloseCardModal = () => {
+    const { cookies } = this.props;
+    const { boardId } = Router.query;
+    const token = cookies.get("jwt");
+    this.props.fetchBoardDetail(boardId, token);
     this.setState({
       openModal: false,
     });

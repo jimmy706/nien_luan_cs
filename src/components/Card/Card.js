@@ -26,10 +26,32 @@ function Card(props) {
     }
   }
 
+  function renderLabels() {
+    if (boardDetail.boardInfo) {
+      return boardDetail.boardInfo.labels.map((label) => {
+        if (card.labels.includes(label._id)) {
+          return (
+            <div
+              key={label._id}
+              style={{ background: label.color }}
+              className="label-box"
+              title={card.labelName}
+            >
+              {label.labelName}
+            </div>
+          );
+        }
+      });
+    }
+    return null;
+  }
+
   return (
     <div className="card-single">
       <div className="card-content" onClick={handleOpenModal}>
-        <div className="card-labels"></div>
+        {card.labels.length > 0 && (
+          <div className="card-labels">{renderLabels()}</div>
+        )}
         <div className="card-name">{cardTitle}</div>
         <div className="card-content-icons">
           {description && (

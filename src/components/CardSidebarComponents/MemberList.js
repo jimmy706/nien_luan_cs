@@ -8,9 +8,9 @@ function MemberList(props) {
   async function handleClick(mem) {}
 
   function renderMemberList() {
-    if (cardState && boardDetail) {
+    if (cardState.cardDetail && boardDetail.boardInfo) {
       return boardDetail.boardInfo.members.map((mem) => (
-        <li>
+        <li key={mem._id}>
           <Persona
             imageUrl={mem.avatar}
             text={mem.email}

@@ -52,3 +52,27 @@ export function removeCard(cardId, token) {
     },
   });
 }
+
+export function addLabel(cardId, labelId, token) {
+  return axios.put(
+    URLs.ADD_LABEL_TO_CARD + cardId,
+    { labelId },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+}
+
+export function removeLabel(cardId, labelId, token) {
+  return axios.put(
+    URLs.REMOVE_LABEL_FROM_CARD + cardId,
+    { labelId },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+}
