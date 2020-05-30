@@ -76,3 +76,15 @@ export function removeLabel(cardId, labelId, token) {
     }
   );
 }
+
+export function updateMembers(cardId, members, token) {
+  return axios.put(
+    URLs.UPDATE_MEMBERS_FOR_CARD + cardId,
+    { members },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+}

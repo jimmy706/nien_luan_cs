@@ -38,3 +38,18 @@
     background-color: #ddd !important;
   }
 }
+
+.full-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.member-avatar-wrapper {
+  width: 28px;
+  height: 28px;
+  overflow: hidden;
+  display: inline-block;
+  border-radius: 50%;
+  margin-right: 5px;
+}

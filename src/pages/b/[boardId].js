@@ -34,7 +34,7 @@ class BoardDetail extends Component {
     const { boardId } = query;
     const token = cookies(context).jwt;
     if (!token) {
-      res.writeHead(302, { Location: "/?redirect=/looking-for" });
+      res.writeHead(302, { Location: "/" });
       res.end();
     }
     const result = await boardAPIs.getBoardDetail(boardId, {
@@ -47,10 +47,12 @@ class BoardDetail extends Component {
   }
 
   async componentDidMount() {
-    const { cookies } = this.props;
-    const { boardId } = Router.query;
-    const token = cookies.get("jwt");
-    this.props.fetchBoardDetail(boardId, token);
+    if (!this.props.boardDetail.boardInfo) {
+      const { cookies } = this.props;
+      const { boardId } = Router.query;
+      const token = cookies.get("jwt");
+      this.props.fetchBoardDetail(boardId, token);
+    }
   }
 
   handleOpenCardModal = (cardId) => {
@@ -137,12 +139,10 @@ class BoardDetail extends Component {
         }}
       >
         <Header />
-        {boardState.boardInfo && (
-          <BoardHeader
-            handleOpenOpenPanel={this.handleOpenOpenPanel}
-            boardDetail={boardState.boardInfo}
-          />
-        )}
+        <BoardHeader
+          handleOpenOpenPanel={this.handleOpenOpenPanel}
+          boardDetail={boardState.boardInfo}
+        />
         <div className="board-content">
           <div
             className="lists-wrapper"

@@ -7,6 +7,7 @@ import * as cardAPIs from "../../API/card.api";
 import { useCookies } from "react-cookie";
 import CardSidebar from "./CardSidebar";
 import CardDueDate from "./CardDueDate";
+import CardMembers from "./CardMembers";
 
 function CardDetailModal(props) {
   const { cardState } = props;
@@ -47,6 +48,7 @@ function CardDetailModal(props) {
                 <div className="card-info">
                   {cardState.cardDetail.labels.length > 0 && <CardLabels />}
                   {cardState.cardDetail.dueDate && <CardDueDate />}
+                  {cardState.cardDetail.members.length > 0 && <CardMembers />}
                 </div>
               )}
               <CardDescription cardDetail={cardState.cardDetail} />

@@ -21,6 +21,7 @@ import axios from "axios";
 import { GET_BOARDS_URL } from "../constants/APIs";
 import BoardCard from "../components/BoardCard/BoardCard";
 import SpinnerOverlay from "../components/Progress/SpinnerOverlay";
+import cookies from "next-cookies";
 
 class Boards extends Component {
   constructor(props) {
@@ -34,6 +35,33 @@ class Boards extends Component {
       closeMenuItemText: "Close",
       menu: ContextualMenu,
     };
+  }
+
+  static async getInitialProps(context) {
+    const { res, store, isServer } = context;
+    const token = cookies(context).jwt;
+    if (!token) {
+      if (isServer) {
+        res.writeHead(302, { Location: "/" });
+        res.end();
+      } else {
+        Router.push("/");
+      }
+    } else {
+      try {
+        const boards = await axios(GET_BOARDS_URL, {
+          headers: {
+            Authorization: token,
+          },
+        });
+        if (boards.status === 200) {
+          await store.dispatch(setBoardsAction(boards.data));
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    return {};
   }
 
   async componentDidMount() {

@@ -27,6 +27,10 @@ class LoginForm extends Component {
     this.props.loginAction(this.state.form);
   };
 
+  componentWillUnmount() {
+    this.props.removeErrorAction();
+  }
+
   componentDidMount() {
     const ggLoginOpts = {
       scope: "https://www.googleapis.com/auth/plus.login",

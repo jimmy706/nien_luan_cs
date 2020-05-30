@@ -4,10 +4,11 @@ import { connect } from "react-redux";
 import { checkCurrentIsAdmin } from "../../helpers/auth";
 import * as cardAPIs from "../../API/card.api";
 import { useCookies } from "react-cookie";
+import moment from "moment";
 
 function Card(props) {
   const { card } = props;
-  const { cardTitle, description } = card;
+  const { cardTitle, description, dueDate } = card;
   const { boardDetail, user } = props;
   const [cookies] = useCookies();
   function handleOpenModal() {
@@ -46,6 +47,31 @@ function Card(props) {
     return null;
   }
 
+  function renderMembers() {
+    if (boardDetail.boardInfo) {
+      return boardDetail.boardInfo.members.map((mem) => {
+        if (card.members.includes(mem.email)) {
+          return (
+            <div
+              title={mem.email}
+              key={`member-${mem._id}`}
+              className="member-avatar-wrapper"
+            >
+              <img src={mem.avatar} alt="member avatar" className="full-img" />
+            </div>
+          );
+        }
+      });
+    }
+  }
+
+  function isLate(date) {
+    if (new Date(date).getTime() > new Date().getTime()) {
+      return false;
+    }
+    return true;
+  }
+
   return (
     <div className="card-single">
       <div className="card-content" onClick={handleOpenModal}>
@@ -57,6 +83,17 @@ function Card(props) {
           {description && (
             <Icon iconName="TextDocument" title="This card has description" />
           )}
+          {dueDate && (
+            <div
+              className="due-date-wrapper"
+              style={{ background: isLate(dueDate) ? "#ff9f1a" : "#61bd50" }}
+            >
+              {moment(dueDate).format("DD/MM/YYYY")}
+            </div>
+          )}
+        </div>
+        <div style={{ marginTop: "10px" }} className="members-wrapper">
+          {renderMembers()}
         </div>
       </div>
       <span className="delete-button" title="Remove this card">

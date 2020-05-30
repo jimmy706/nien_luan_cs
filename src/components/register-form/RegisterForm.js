@@ -4,19 +4,25 @@ import {
   Stack,
   DefaultButton,
   MessageBar,
-  MessageBarType
+  MessageBarType,
 } from "office-ui-fabric-react";
 import React, { Component } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { CREATE_ACCOUNT_URL } from "../../constants/APIs";
-import {passwordValidate, emailValidation, usernameValidate} from "../../validations/user-input.validation";
-import {WRONG_REPEAT_PASSWORD} from "../../constants/error-message";
+import {
+  passwordValidate,
+  emailValidation,
+  usernameValidate,
+} from "../../validations/user-input.validation";
+import { WRONG_REPEAT_PASSWORD } from "../../constants/error-message";
 import Router from "next/router";
-import {connect} from "react-redux";
-import {onDoneAction, onLoadAction} from "../../store/actions/progress.action";
-import {removeError, setErrorAct} from "../../store/actions/error.action";
-
+import { connect } from "react-redux";
+import {
+  onDoneAction,
+  onLoadAction,
+} from "../../store/actions/progress.action";
+import { removeError, setErrorAct } from "../../store/actions/error.action";
 
 class RegisterForm extends Component {
   constructor(props) {
@@ -28,56 +34,60 @@ class RegisterForm extends Component {
         repeatPassword: "",
         email: "",
         firstName: "",
-        lastName: ""
+        lastName: "",
       },
-      errors: {}
+      errors: {},
     };
   }
 
-  handleSubmit = e => {
+  componentWillUnmount() {
+    this.props.removeError();
+  }
+
+  handleSubmit = (e) => {
     e.preventDefault();
     this.props.onLoadAct("Creating account...");
 
     axios
       .post(CREATE_ACCOUNT_URL, this.state.form)
-      .then(res => {
+      .then((res) => {
         this.props.onDoneAct();
         Router.push("/");
       })
-      .catch(err => {
-        if(err.response){
+      .catch((err) => {
+        this.props.onDoneAct();
+        if (err.response) {
           const errors = err.response.data;
           this.props.setErrorAct(errors);
-        }
-        else {
+        } else {
           console.log(err);
         }
       });
   };
 
-  handleOnChange = e => {
+  handleOnChange = (e) => {
     this.setState({
       form: {
         ...this.state.form,
-        [e.target.name]: e.target.value
-      }
+        [e.target.name]: e.target.value,
+      },
     });
   };
 
-  checkErrorMessage = (field,value) => {
-   switch (field) {
-     case 'email':
-       return emailValidation(value);
-     case 'password':
-       return passwordValidate(value);
-     case 'username':
-       return usernameValidate(value);
-   }
+  checkErrorMessage = (field, value) => {
+    switch (field) {
+      case "email":
+        return emailValidation(value);
+      case "password":
+        return passwordValidate(value);
+      case "username":
+        return usernameValidate(value);
+    }
   };
 
   renderErrors = () => {
     let errorMessages = [];
-    for(const e in this.props.errors) {
+    for (const e in this.props.errors) {
       errorMessages.push(this.props.errors[e]);
     }
     return errorMessages;
@@ -86,17 +96,22 @@ class RegisterForm extends Component {
   render() {
     const inlineTextFieldStyles = {
       root: {
-        width: "50%"
-      }
+        width: "50%",
+      },
     };
 
     return (
       <form className="register-form" onSubmit={this.handleSubmit}>
         {Object.keys(this.props.errors).length ? (
-            <MessageBar  messageBarType={MessageBarType.error} isMultiline={false}  dismissButtonAriaLabel="Close" onDismiss={this.props.removeError}>
-              {this.renderErrors()}
-            </MessageBar>
-        ): null}
+          <MessageBar
+            messageBarType={MessageBarType.error}
+            isMultiline={false}
+            dismissButtonAriaLabel="Close"
+            onDismiss={this.props.removeError}
+          >
+            {this.renderErrors()}
+          </MessageBar>
+        ) : null}
         <Stack tokens={{ childrenGap: 10 }}>
           <TextField
             label="Email"
@@ -105,7 +120,9 @@ class RegisterForm extends Component {
             name="email"
             required
             onChange={this.handleOnChange}
-            onGetErrorMessage={(value)=>this.checkErrorMessage('email',value)}
+            onGetErrorMessage={(value) =>
+              this.checkErrorMessage("email", value)
+            }
             validateOnLoad={false}
           />
           <TextField
@@ -116,7 +133,9 @@ class RegisterForm extends Component {
             required
             onChange={this.handleOnChange}
             validateOnLoad={false}
-            onGetErrorMessage={(value)=>this.checkErrorMessage('username',value)}
+            onGetErrorMessage={(value) =>
+              this.checkErrorMessage("username", value)
+            }
           />
           <Stack horizontal tokens={{ childrenGap: 20 }}>
             <Stack.Item styles={inlineTextFieldStyles}>
@@ -127,7 +146,9 @@ class RegisterForm extends Component {
                 name="password"
                 required
                 onChange={this.handleOnChange}
-                onGetErrorMessage={(value)=>this.checkErrorMessage('password',value)}
+                onGetErrorMessage={(value) =>
+                  this.checkErrorMessage("password", value)
+                }
                 validateOnLoad={false}
               />
             </Stack.Item>
@@ -139,7 +160,11 @@ class RegisterForm extends Component {
                 name="repeatPassword"
                 required
                 onChange={this.handleOnChange}
-                onGetErrorMessage={(value) => value === this.state.form.password ? '' : WRONG_REPEAT_PASSWORD}
+                onGetErrorMessage={(value) =>
+                  value === this.state.form.password
+                    ? ""
+                    : WRONG_REPEAT_PASSWORD
+                }
                 validateOnLoad={false}
               />
             </Stack.Item>
@@ -196,19 +221,19 @@ class RegisterForm extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    errors: state.errors
-  }
+    errors: state.errors,
+  };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     onDoneAct: () => dispatch(onDoneAction()),
     onLoadAct: (label) => dispatch(onLoadAction(label)),
     removeError: () => dispatch(removeError()),
-    setErrorAct: (errors) => dispatch(setErrorAct(errors))
-  }
+    setErrorAct: (errors) => dispatch(setErrorAct(errors)),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);
