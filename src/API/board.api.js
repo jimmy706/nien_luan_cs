@@ -21,6 +21,18 @@ export function changeBoardName(boardId, boardName, config) {
   return axios.put(URLs.CHANGE_BOARD_NAME_URL + boardId, { boardName }, config);
 }
 
+export function changreBoardTheme(boardId, theme, token) {
+  return axios.put(
+    URLs.CHANGE_BOARD_THEME + boardId,
+    { theme },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+}
+
 export function addMember(boardId, email, token) {
   return axios.put(
     URLs.ADD_MEMBER_TO_BOARD_URL + boardId,

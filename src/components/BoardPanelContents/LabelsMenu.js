@@ -100,6 +100,7 @@ function LabelMenu(props) {
             <span
               className="toggle-back"
               onClick={() => setOpenEditLabel(false)}
+              title="Back"
             >
               <Icon iconName="ChevronLeft" />
             </span>

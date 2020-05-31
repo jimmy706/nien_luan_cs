@@ -14,4 +14,14 @@
       background-color: transparent;
     }
   }
+  .board-color-lits {
+    li {
+      display: block;
+      height: 30px;
+      width: 100%;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  }
 }

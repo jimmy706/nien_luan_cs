@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import MainMenu from "./MainMenu";
-import { MAIN_MENU, CHANGE_THEME, LABELS, MEMBERS } from "./display-type";
+import { MAIN_MENU, CHANGE_THEME, LABELS } from "./display-type";
 import LabelMenu from "./LabelsMenu";
+import ThemeMenu from "./ThemeMenu";
 
 const menuList = [
   {
@@ -23,6 +24,8 @@ function BoardPanelMainContent() {
     switch (display) {
       case LABELS:
         return <LabelMenu setDisplay={setDisplay} />;
+      case CHANGE_THEME:
+        return <ThemeMenu setDisplay={setDisplay} />;
       default:
         return <MainMenu setDisplay={setDisplay} menuList={menuList} />;
     }

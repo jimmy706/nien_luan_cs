@@ -1,55 +1,74 @@
-import React, {useState} from 'react';
-import {Icon, TextField, PrimaryButton, IconButton} from "office-ui-fabric-react";
+import React, { useState } from "react";
+import {
+  Icon,
+  TextField,
+  PrimaryButton,
+  IconButton,
+} from "office-ui-fabric-react";
 
 function AddList(props) {
-    const [open, setOpen] = useState(false);
-    const [name, setName] = useState("");
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
 
-    function handleOpenForm() {
-        setOpen(true);
-    }
+  function handleOpenForm() {
+    setOpen(true);
+  }
 
-    function handleCloseForm() {
-        setOpen(false);
-    }
+  function handleCloseForm() {
+    setOpen(false);
+  }
 
-    function handleChangeInput(e) {
-        setName(e.target.value);
-    }
+  function handleChangeInput(e) {
+    setName(e.target.value);
+  }
 
-    function handleAddNewList(e) {
-        e.preventDefault();
-        props.addNewList(name);
-        setOpen(false);
-        setName('');
-    }
+  function handleAddNewList(e) {
+    e.preventDefault();
+    props.addNewList(name);
+    setOpen(false);
+    setName("");
+  }
 
-    function renderForm() {
-        return (
-            <form className="add-list-form" onSubmit={handleAddNewList}>
-                <TextField placeholder="Enter list title..." value={name} onChange={handleChangeInput} />
-                <div className="button-wrapper">
-                    <span style={{
-                        marginRight: "10px"
-                    }}>
-                        <IconButton
-                            onClick={handleCloseForm}
-                            iconProps={{
-                            iconName: 'ChromeClose'
-                        }} title="Close form" ariaLabel="Close form" />
-                    </span>
-                    <PrimaryButton text="Add list" type={"submit"}/>
-                </div>
-            </form>
-        )
-    }
-
+  function renderForm() {
     return (
-        <div className={"add-list-wrapper"}>
-            {!open ? <span className="toggle-form" onClick={handleOpenForm}><Icon iconName="Add"/> Add another list</span> : null}
-            {open ? renderForm() : null}
+      <form className="add-list-form" onSubmit={handleAddNewList}>
+        <TextField
+          autoComplete="off"
+          placeholder="Enter list title..."
+          value={name}
+          onChange={handleChangeInput}
+        />
+        <div className="button-wrapper">
+          <span
+            style={{
+              marginRight: "10px",
+            }}
+          >
+            <IconButton
+              onClick={handleCloseForm}
+              iconProps={{
+                iconName: "ChromeClose",
+              }}
+              title="Close form"
+              ariaLabel="Close form"
+            />
+          </span>
+          <PrimaryButton text="Add list" type={"submit"} />
         </div>
-    )
+      </form>
+    );
+  }
+
+  return (
+    <div className={"add-list-wrapper"}>
+      {!open ? (
+        <span className="toggle-form" onClick={handleOpenForm}>
+          <Icon iconName="Add" /> Add another list
+        </span>
+      ) : null}
+      {open ? renderForm() : null}
+    </div>
+  );
 }
 
 export default AddList;
