@@ -4,6 +4,7 @@ import HiddenMenu from "../HiddenMenu/HiddenMenu";
 import LabelList from "../CardSidebarComponents/LabelList";
 import MemberList from "../CardSidebarComponents/MemberList";
 import DueDatePicker from "../CardSidebarComponents/DueDatePicker";
+import CheckList from "../CardSidebarComponents/Checklist";
 
 function CardSidebar(props) {
   return (
@@ -47,9 +48,16 @@ function CardSidebar(props) {
           </HiddenMenu>
         </li>
         <li className="action-item">
-          <span className="item-content">
-            <Icon iconName="CheckList" /> Checklist
-          </span>
+          <HiddenMenu
+            title="Add checklist"
+            toggle={
+              <span className="item-content">
+                <Icon iconName="CheckList" /> Checklist
+              </span>
+            }
+          >
+            <CheckList />
+          </HiddenMenu>
         </li>
       </ul>
     </div>

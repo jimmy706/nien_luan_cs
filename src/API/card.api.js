@@ -88,3 +88,15 @@ export function updateMembers(cardId, members, token) {
     }
   );
 }
+
+export function addCheckList(cardId, checklistName, token) {
+  return axios.put(
+    URLs.ADD_CHECKLIST + cardId,
+    { checklistName },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+}

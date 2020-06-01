@@ -8,6 +8,7 @@ import { useCookies } from "react-cookie";
 import CardSidebar from "./CardSidebar";
 import CardDueDate from "./CardDueDate";
 import CardMembers from "./CardMembers";
+import CheckList from "./CheckList";
 
 function CardDetailModal(props) {
   const { cardState } = props;
@@ -21,6 +22,15 @@ function CardDetailModal(props) {
       value,
       cookies.jwt
     );
+  }
+
+  function renderCheckList() {
+    if (cardState.cardDetail) {
+      return cardState.cardDetail.checklist.map((cl) => (
+        <CheckList checklist={cl} />
+      ));
+    }
+    return null;
   }
 
   return (
@@ -52,6 +62,7 @@ function CardDetailModal(props) {
                 </div>
               )}
               <CardDescription cardDetail={cardState.cardDetail} />
+              <div className="section-wrapper">{renderCheckList()}</div>
             </div>
             <CardSidebar />
           </div>

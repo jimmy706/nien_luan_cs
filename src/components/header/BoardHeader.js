@@ -3,7 +3,6 @@ import * as boardAPIs from "../../API/board.api";
 import { getAuth } from "../../helpers/auth";
 import {
   PersonaSize,
-  Facepile,
   Persona,
   Icon,
   ActionButton,

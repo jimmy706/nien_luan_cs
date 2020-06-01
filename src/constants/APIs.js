@@ -30,5 +30,6 @@ export const UPDATE_CARD_DUE_DATE = `${BASE_URL}/cards/update/due-date/`;
 export const ADD_LABEL_TO_CARD = `${BASE_URL}/cards/update/labels/add/`;
 export const REMOVE_LABEL_FROM_CARD = `${BASE_URL}/cards/update/labels/remove/`;
 export const UPDATE_MEMBERS_FOR_CARD = `${BASE_URL}/cards/update/members/`;
+export const ADD_CHECKLIST = `${BASE_URL}/cards/update/checklist/add/`;
 
 export const SEARCH_USER = `${BASE_URL}/user/mail`;

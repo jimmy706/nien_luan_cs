@@ -107,6 +107,12 @@
       color: #fff;
     }
   }
+  .checklist-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
 }
 
 .desc-display {
