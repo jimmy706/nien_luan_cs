@@ -27,7 +27,7 @@ function CardDetailModal(props) {
   function renderCheckList() {
     if (cardState.cardDetail) {
       return cardState.cardDetail.checklist.map((cl) => (
-        <CheckList checklist={cl} />
+        <CheckList checklist={cl} key={cl._id} />
       ));
     }
     return null;
@@ -62,7 +62,9 @@ function CardDetailModal(props) {
                 </div>
               )}
               <CardDescription cardDetail={cardState.cardDetail} />
-              <div className="section-wrapper">{renderCheckList()}</div>
+              {cardState.cardDetail.checklist.length > 0 && (
+                <div className="section-wrapper">{renderCheckList()}</div>
+              )}
             </div>
             <CardSidebar />
           </div>

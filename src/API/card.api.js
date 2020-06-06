@@ -100,3 +100,31 @@ export function addCheckList(cardId, checklistName, token) {
     }
   );
 }
+
+export function updateChecklist(
+  cardId,
+  { checklistId, checklistName, list },
+  token
+) {
+  return axios.put(
+    URLs.UPDATE_CHECKLIST + cardId,
+    { checklistId, checklistName, list },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+}
+
+export function removeChecklist(cardId, checklistId, token) {
+  return axios.put(
+    URLs.REMOVE_CHECKLIST + cardId,
+    { checklistId },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+}
