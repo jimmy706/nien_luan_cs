@@ -6,6 +6,7 @@ import * as boardAPIs from "../../API/board.api";
 import { fetchCardAction } from "../../store/actions/card.action";
 import { withCookies } from "react-cookie";
 import * as boardDetailAction from "../../store/actions/board-detail.action";
+import dynamic from 'next/dynamic';
 
 // Components
 import Header from "components/header/Header";
@@ -17,8 +18,12 @@ import { onLoadAction, onDoneAction } from "store/actions/progress.action";
 import * as listAPIs from "../../API/list.api";
 import cookies from "next-cookies";
 import { Modal, Panel } from "office-ui-fabric-react";
-import CardDetailModal from "../../components/CardDetailModal/CardDetailModal";
-import BoardPanelMainContent from "../../components/BoardPanelContents/MainContent";
+
+const BoardPanelMainContent = dynamic(()=>import("../../components/BoardPanelContents/MainContent"), {ssr: false});
+const CardDetailModal = dynamic(() =>
+  import("../../components/CardDetailModal/CardDetailModal"), 
+  {ssr: false}
+);
 
 class BoardDetail extends Component {
   constructor(props) {

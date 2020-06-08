@@ -30,6 +30,7 @@ function CheckList(props) {
       const result = await cardAPIs.addCheckList(cardId, checklistName, token);
       if (result.status === 200) {
         props.updateCard(result.data);
+        setChecklistName('');
       }
     } catch (err) {
       console.log(err);

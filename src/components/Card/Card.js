@@ -8,7 +8,7 @@ import moment from "moment";
 
 function Card(props) {
   const { card } = props;
-  const { cardTitle, description, dueDate } = card;
+  const { cardTitle, description, dueDate, checklist } = card;
   const { boardDetail, user } = props;
   const [cookies] = useCookies();
   function handleOpenModal() {
@@ -72,6 +72,21 @@ function Card(props) {
     return true;
   }
 
+  function renderChecklist() {
+    let countLength = 0;
+    let countChecked = 0;
+    checklist.forEach(cl =>{
+      cl.list.forEach(item => {
+        countLength++;
+        if(item.checked) {
+          countChecked++;
+        }
+      })
+    })
+
+    return `${countChecked}/${countLength}`;
+  }
+
   return (
     <div className="card-single">
       <div className="card-content" onClick={handleOpenModal}>
@@ -83,10 +98,17 @@ function Card(props) {
           {description && (
             <Icon iconName="TextDocument" title="This card has description" />
           )}
+          {checklist.length > 0 && (
+            <span className="checklist-wrapper" title="Checklist items">
+              <Icon iconName="CheckList" />{" "}
+              <span className="count">{renderChecklist()}</span>
+            </span>
+          )}
           {dueDate && (
             <div
               className="due-date-wrapper"
               style={{ background: isLate(dueDate) ? "#ff9f1a" : "#61bd50" }}
+              title={isLate(dueDate) ? "Passed" : "Coming soon"}
             >
               {moment(dueDate).format("DD/MM/YYYY")}
             </div>

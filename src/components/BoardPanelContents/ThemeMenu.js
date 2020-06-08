@@ -16,7 +16,6 @@ function ThemeMenu(props) {
     const boardId = boardInfo?._id;
     try {
       const result = await boardAPIs.changreBoardTheme(boardId, theme, token);
-      console.log(result);
       if (result.status === 200) {
         props.updateBoard(result.data);
       }

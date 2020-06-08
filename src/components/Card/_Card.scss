@@ -34,6 +34,17 @@
   .card-labels {
     margin-bottom: 10px;
   }
+  .checklist-wrapper{
+    margin: 0 5px;
+    display: flex;
+    align-items: center;
+    i{
+      margin-right: 4px;
+    }
+    .count{
+      font-size: 11px;
+    }
+  }
   .label-box {
     display: inline-block;
     padding: 5px;

@@ -6,9 +6,12 @@ import {
   PrimaryButton,
 } from "office-ui-fabric-react";
 import labelColors from "../../constants/label-colors";
+import { connect } from "react-redux";
+import {checkCurrentIsAdmin } from '../../helpers/auth';
+
 
 function LabelEditBoard(props) {
-  const { boardType, onCreate, labelInfo, onUpdate } = props;
+  const { boardType, onCreate, labelInfo, onUpdate, boardDetail, user } = props;
 
   function checkedColor(color) {
     if (labelInfo) {
@@ -60,14 +63,23 @@ function LabelEditBoard(props) {
       </div>
       <div className="button-wrapper">
         {boardType === "create" ? (
-          <PrimaryButton text="Create" type="submit" />
+          <PrimaryButton
+            text="Create"
+            type="submit"
+            disabled={!checkCurrentIsAdmin(boardDetail.boardInfo, user)}
+          />
         ) : (
           <>
-            <PrimaryButton text="Save" type="submit" />
+            <PrimaryButton
+              text="Save"
+              type="submit"
+              disabled={!checkCurrentIsAdmin(boardDetail.boardInfo, user)}
+            />
             <DefaultButton
               onClick={() => props.onDelete(labelInfo?._id)}
               type="button"
               text="Delete"
+              disabled={!checkCurrentIsAdmin(boardDetail.boardInfo, user)}
             />
           </>
         )}
@@ -76,7 +88,12 @@ function LabelEditBoard(props) {
   );
 }
 
-export default LabelEditBoard;
+const mapStateToProps = (state) => {
+  return {
+    boardDetail: state.boardDetail,
+    user: state.user,
+  };
+};
 
 LabelEditBoard.defaultProps = {
   boardType: "create",
@@ -85,3 +102,7 @@ LabelEditBoard.defaultProps = {
   onDelete: (labelId) => {},
   labelInfo: null,
 };
+
+export default connect(mapStateToProps, null)(LabelEditBoard);
+
+

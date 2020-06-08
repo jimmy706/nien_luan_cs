@@ -51,14 +51,51 @@ function CheckList(props) {
     }
   }
 
-  function handleCheck(index, value) {
-    let result = list.map((item, i) => {
+  async function handleCheck(index, value) {
+    let newList = list.map((item, i) => {
       if (i === index) {
         item.checked = value;
       }
       return item;
     });
-    setList(result);
+    const cardId = cardState.cardDetail._id;
+    const token = cookies.jwt;
+    const data = {
+      checklistId: checklist._id,
+      list: newList,
+      checklistName: checklist.checklistName,
+    };
+    setList(newList);
+    try {
+      const result = await cardAPIs.updateChecklist(cardId, data, token);
+      if (result.status === 200) {
+        props.updateCard(result.data);
+        setItemName("");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function handleRemoveItem(index) {
+    let newList = list.filter((item, i) => i !== index);
+    setList(newList);
+     const cardId = cardState.cardDetail._id;
+     const token = cookies.jwt;
+     const data = {
+       checklistId: checklist._id,
+       list: newList,
+       checklistName: checklist.checklistName,
+     };
+     try {
+       const result = await cardAPIs.updateChecklist(cardId, data, token);
+       if (result.status === 200) {
+         props.updateCard(result.data);
+         setItemName("");
+       }
+     } catch (err) {
+       console.log(err);
+     }
   }
 
   function renderCheckbox() {
@@ -73,6 +110,7 @@ function CheckList(props) {
           iconProps={{ iconName: "Delete" }}
           styles={{ root: { color: "rgb(224, 0, 27)!important" } }}
           title="Remove item"
+          onClick={() => handleRemoveItem(index)}
         />
       </li>
     ));
@@ -94,6 +132,9 @@ function CheckList(props) {
   }
 
   function calcPercentComplete() {
+    if(list.length < 1) {
+      return 0;
+    }
     let countCheck = 0;
     let itemLength = list.length;
     for (let item of list) {

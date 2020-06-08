@@ -5,11 +5,13 @@ import {
   PrimaryButton,
   IconButton,
 } from "office-ui-fabric-react";
+import {connect} from 'react-redux';
+import { checkCurrentIsAdmin } from "../../helpers/auth";
 
 function AddList(props) {
+  const { boardDetail, user } = props;
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
-
   function handleOpenForm() {
     setOpen(true);
   }
@@ -51,9 +53,14 @@ function AddList(props) {
               }}
               title="Close form"
               ariaLabel="Close form"
+              type="button"
             />
           </span>
-          <PrimaryButton text="Add list" type={"submit"} />
+          <PrimaryButton
+            text="Add list"
+            type={"submit"}
+            disabled={!checkCurrentIsAdmin(boardDetail.boardInfo, user)}
+          />
         </div>
       </form>
     );
@@ -71,4 +78,11 @@ function AddList(props) {
   );
 }
 
-export default AddList;
+const mapStateToProps = (state) => {
+  return {
+    boardDetail: state.boardDetail,
+    user: state.user,
+  };
+};
+
+export default connect(mapStateToProps, null)(AddList);
