@@ -1,0 +1,13 @@
+{
+  "region": "us-east-1",
+  "privateZone": false,
+  "domain": "www.b1709272-nlcs.com",
+  "subdomains": [
+    {
+      "domain": "www.www.b1709272-nlcs.com",
+      "distributionId": "E2LI5PGAHQPMIM",
+      "url": "https://d1c6o32dr71bwr.cloudfront.net",
+      "type": "awsCloudFront"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+nienLuanCs:
+  component: serverless-next.js
+  inputs:
+    code:
+      hook: npm run build

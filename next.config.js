@@ -13,6 +13,7 @@ const folders = [
 ];
 
 module.exports = withCss(withSass({
+    target:"serverless",
     webpack: (config) => {
         config.node = {
           fs: "empty"
