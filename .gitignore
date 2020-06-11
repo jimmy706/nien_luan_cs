@@ -2,3 +2,4 @@
 /.next
 /.idea
 /.serverless_nextjs
+.env
