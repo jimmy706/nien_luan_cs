@@ -1,4 +1,4 @@
-let isDev = true;
+let isDev = false;
 
 export const BASE_URL = isDev
   ? "http://localhost:3001/api"
