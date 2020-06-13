@@ -1,15 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Icon } from "office-ui-fabric-react";
+import { Icon, IconButton } from "office-ui-fabric-react";
 import { connect } from "react-redux";
 import { updateBoard } from "../../store/actions/board-detail.action";
 import * as boardAPIs from "../../API/board.api";
 import { useCookies } from "react-cookie";
+import { checkCurrentIsAdmin } from "../../helpers/auth";
 
 function ListHeader(props) {
   const inputNameRef = useRef(null);
   const [openInput, setOpenInput] = useState(false);
   const [openHiddenMenu, setOpenHiddenMenu] = useState(false);
   const [cookies] = useCookies();
+  const { boardDetail, user } = props;
 
   function handleOpenInput() {
     setOpenInput(true);
@@ -55,12 +57,12 @@ function ListHeader(props) {
           onBlur={handleChangeListName}
         />
       </div>
-      <span
+      <IconButton
         className="toggle-menu"
+        iconProps={{ iconName: "More" }}
         onClick={() => setOpenHiddenMenu(!openHiddenMenu)}
-      >
-        <Icon iconName="More" />
-      </span>
+        disabled={!checkCurrentIsAdmin(boardDetail.boardInfo, user)}
+      />
       <div className={`hidden-menu ${openHiddenMenu ? "open" : ""}`}>
         <div className="menu-header">
           <span className="title">List Action</span>
@@ -97,6 +99,7 @@ ListHeader.defaultProps = {
 const mapStateToProps = (state) => {
   return {
     boardDetail: state.boardDetail,
+    user: state.user,
   };
 };
 
