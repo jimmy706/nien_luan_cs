@@ -6,7 +6,7 @@ import * as boardAPIs from "../../API/board.api";
 import { fetchCardAction } from "../../store/actions/card.action";
 import { withCookies } from "react-cookie";
 import * as boardDetailAction from "../../store/actions/board-detail.action";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 
 // Components
 import Header from "components/header/Header";
@@ -19,10 +19,13 @@ import * as listAPIs from "../../API/list.api";
 import cookies from "next-cookies";
 import { Modal, Panel } from "office-ui-fabric-react";
 
-const BoardPanelMainContent = dynamic(()=>import("../../components/BoardPanelContents/MainContent"), {ssr: false});
-const CardDetailModal = dynamic(() =>
-  import("../../components/CardDetailModal/CardDetailModal"), 
-  {ssr: false}
+const BoardPanelMainContent = dynamic(
+  () => import("../../components/BoardPanelContents/MainContent"),
+  { ssr: false }
+);
+const CardDetailModal = dynamic(
+  () => import("../../components/CardDetailModal/CardDetailModal"),
+  { ssr: false }
 );
 
 class BoardDetail extends Component {
@@ -35,24 +38,32 @@ class BoardDetail extends Component {
   }
 
   static async getInitialProps(context) {
-    const { query, res, store } = context;
+    const { query, res } = context;
     const { boardId } = query;
     const token = cookies(context).jwt;
     if (!token) {
       res.writeHead(302, { Location: "/" });
       res.end();
     }
-    const result = await boardAPIs.getBoardDetail(boardId, {
-      headers: {
-        Authorization: token,
-      },
-    });
-    store.dispatch(boardDetailAction.updateBoard(result.data));
-    return {};
+    try {
+      const result = await boardAPIs.getBoardDetail(boardId, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      return {
+        boardDetailData: result.data,
+      };
+    } catch (err) {
+      return { boardDetailData: null };
+    }
   }
 
   async componentDidMount() {
-    if (!this.props.boardDetail.boardInfo) {
+    const { boardDetailData } = this.props;
+    if (boardDetailData) {
+      this.props.updateBoard(boardDetailData);
+    } else if (!this.props.boardDetail.boardInfo) {
       const { cookies } = this.props;
       const { boardId } = Router.query;
       const token = cookies.get("jwt");

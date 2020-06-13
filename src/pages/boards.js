@@ -54,26 +54,33 @@ class Boards extends Component {
             Authorization: token,
           },
         });
-        if (boards.status === 200) {
-          await store.dispatch(setBoardsAction(boards.data));
-        }
+
+        return {
+          boardsData: boards.data,
+        };
       } catch (err) {
-        console.log(err);
+        console.log(err.response);
+        return {
+          boardsData: null,
+        };
       }
     }
-    return {};
   }
 
   async componentDidMount() {
     if (!isAuth()) {
       Router.push("/");
     } else {
-      const boards = await axios(GET_BOARDS_URL, {
-        headers: {
-          Authorization: `${getAuth().token}`,
-        },
-      });
-      this.props.setBoardsAction(boards.data);
+      if (this.props.boardsData) {
+        this.props.setBoardsAction(this.props.boardsData);
+      } else {
+        const boards = await axios(GET_BOARDS_URL, {
+          headers: {
+            Authorization: `${getAuth().token}`,
+          },
+        });
+        this.props.setBoardsAction(boards.data);
+      }
     }
   }
 
