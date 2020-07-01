@@ -71,6 +71,10 @@ class BoardDetail extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.updateBoard(null);
+  }
+
   handleOpenCardModal = (cardId) => {
     const { cookies, fetchCardAction, cardState } = this.props;
     const token = cookies.get("jwt");
@@ -155,10 +159,12 @@ class BoardDetail extends Component {
         }}
       >
         <Header />
-        <BoardHeader
-          handleOpenOpenPanel={this.handleOpenOpenPanel}
-          boardDetail={boardState.boardInfo}
-        />
+        {boardState.boardInfo && (
+          <BoardHeader
+            handleOpenOpenPanel={this.handleOpenOpenPanel}
+            boardDetail={boardState.boardInfo}
+          />
+        )}
         <div className="board-content">
           <div
             className="lists-wrapper"
